@@ -99,7 +99,7 @@ h1,h2,h3,h4, h5, h6 {
     max-width: 300px;
     width: 280px;
     text-align: left;
-    margin-right: 10px;
+    margin: 0px 10px;
     position: relative;
 }
 

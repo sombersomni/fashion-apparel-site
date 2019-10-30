@@ -13,7 +13,12 @@ const routes = [
   {
     path: '/women',
     name: 'women',
-    component: () => import('../views/Products.vue'),
+    component: () => import('../views/Women.vue'),
+  },
+  {
+    path: '/men',
+    name: 'men',
+    component: () => import('../views/Men.vue'),
   },
   {
     path: '/about',
