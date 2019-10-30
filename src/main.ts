@@ -2,10 +2,11 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSortUp, faSortDown } from '@fortawesome/pro-solid-svg-icons';
 import { faCheck } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faCheck);
+library.add(faCheck, faSortUp, faSortDown);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
