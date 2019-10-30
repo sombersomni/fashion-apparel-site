@@ -7,7 +7,7 @@
         <div class="underline"></div>
         <p class="desc">Stay fresh but professional</p>
         <div>
-          <button class="shop-btn">Shop Men</button>
+           <router-link to="/men"><button class="shop-btn">Shop Men</button></router-link>
           <router-link to="/women"><button class="shop-btn">Shop Women</button></router-link>
         </div>
       </div>

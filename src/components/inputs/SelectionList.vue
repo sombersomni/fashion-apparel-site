@@ -15,6 +15,10 @@
             :label="attr.label"
             :count="attr.count ? attr.count : 0"
             :keepCount="attr.label !== 'All'"
+            @onSelectedFilter="updateFilter($event)"
+            @undoReset="resetFilterList = false"
+            :reset="resetFilterList"
+            :onlyAll="numOfSelected === 0"
             />
         </div>
         <button 
@@ -51,6 +55,9 @@ export default class SelectionList extends Vue {
       marginTop: '5px',
       cursor: 'pointer',
   };
+  public resetFilterList: boolean = true;
+  public numOfSelected: number = 0;
+
   private limit: number = 5;
   private optionLength: number = 0;
   private showMore: boolean = false;
@@ -78,6 +85,23 @@ export default class SelectionList extends Vue {
 
   public toggleSort() {
       this.sortOn = !this.sortOn;
+  }
+
+  public updateFilter(data: { filterValue: string, action: string }) {
+      const { filterValue, action } = data;
+      if (filterValue === 'All') {
+          if (action === 'add') {
+              this.resetFilterList = true;
+          } 
+      } else {
+          if (action === 'add') {
+              this.numOfSelected++;
+          } else {
+              this.numOfSelected--;
+          }
+          this.resetFilterList = false;
+      }
+      this.$emit('onUpdateFilter', { ...data, filterType: this.filterLabel, refresh: this.resetFilterList || this.numOfSelected === 0 });
   }
 }
 </script>
