@@ -35,16 +35,12 @@ img {
   width: 100vw;
 }
 
-.main-container {
-    padding-top: 60px;
-}
-
 .feature-header-container {
   background: url("../assets/imgs/feature/header.jpg") no-repeat;
   background-size: cover;
   background-position-x: right;
-  margin: 0px;
-  padding-top: 0px;
+  margin: 0;
+  padding: 0;
   width: 100vw;
   height: 100vh;
 }
@@ -54,7 +50,7 @@ img {
 }
 #feature-title {
   position: absolute;
-  top: 25px;
+  top: 85px;
   left: 25px;
   width: 300px;
   height: auto;
