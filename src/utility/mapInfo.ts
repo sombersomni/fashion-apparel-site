@@ -16,7 +16,7 @@ export default function mapInfo(label: string, product: any, aggregation: any): 
                 }
                 aggregation[label][attr]++;
             });
-        } else { 
+        } else {
             const attr = product[label];
             if (!aggregation[label][attr]) {
                 aggregation[label][attr]  = 0;

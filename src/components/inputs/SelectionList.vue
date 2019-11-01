@@ -14,8 +14,9 @@
             :key="attr.label"
             :label="attr.label"
             :count="attr.count ? attr.count : 0"
+            :type="filterLabel"
             :keepCount="attr.label !== 'All'"
-            @onSelectedFilter="updateFilter($event)"
+            @onSelectedFilter="updateFilter($event, filterLabel)"
             @undoReset="resetFilterList = false"
             :reset="resetFilterList"
             :onlyAll="numOfSelected === 0"
@@ -87,21 +88,22 @@ export default class SelectionList extends Vue {
       this.sortOn = !this.sortOn;
   }
 
-  public updateFilter(data: { filterValue: string, action: string }) {
+  public updateFilter(data: { filterValue: string, action: string }, filterLabel: string) {
       const { filterValue, action } = data;
-      if (filterValue === 'All') {
+      if (filterValue.toLowerCase() === 'all') {
           if (action === 'add') {
               this.resetFilterList = true;
-          } 
+              this.numOfSelected = 0;
+          }
       } else {
           if (action === 'add') {
               this.numOfSelected++;
           } else {
               this.numOfSelected--;
           }
-          this.resetFilterList = false;
+          this.resetFilterList = this.numOfSelected === 0;
       }
-      this.$emit('onUpdateFilter', { ...data, filterType: this.filterLabel, refresh: this.resetFilterList || this.numOfSelected === 0 });
+      this.$emit('onUpdateFilter', { ...data, filterType: filterLabel, refresh: this.resetFilterList});
   }
 }
 </script>

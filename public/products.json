@@ -88,6 +88,36 @@
             ],
             "price": 60,
             "limited": false
+        },
+        {
+            "id": "2854433",
+            "name": "test slip dress",
+            "gender": "female",
+            "type": "dress",
+            "feature_img": "/women/simple-slip-dress-front.jpg",
+            "imgs": [
+                "/women/simple-slip-dress-side.jpg",
+                "/women/simple-slip-dress-profile.jpg"
+            ],
+            "colors": [
+                "white",
+                "red"
+            ],
+            "sizes": [
+                "xs",
+                "m",
+                "l",
+                "xl"
+            ],
+            "details": "Crossback Slip Dress featuring a lettuce edge in our Mix Modal, a sexy, silky, soft and luxurious fabric. Pairs great with the rest of our Mix Modal collection.",
+            "foward": "Mix Modal combines ultra-soft, silky fiber with unique durability. Derived from beech trees, this anti-pilling fabric is shrink-resistant with a cotton-like feel. Modal’s luxe draping effect is ideal for intimates, loungewear, and day-to-night silhouettes.",
+            "washer-details": "Machine wash cold or dry clean. Do not bleach. Tumble dry low. Cool iron.",
+            "fabrics": [
+                "Spandex",
+                "Cotton"
+            ],
+            "price": 60,
+            "limited": false
         }
     ],
     "men": [
@@ -95,7 +125,7 @@
             "id": "3027176",
             "name": "detective trench jacket",
             "gender": "male",
-            "type": "dress",
+            "type": "jacket",
             "feature_img": "/men/detective-jacket-front.jpg",
             "imgs": [
                 "/men/detective-jacket-front2.jpg",

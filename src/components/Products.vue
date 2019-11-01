@@ -29,15 +29,16 @@
 import ProductDisplay from '../components/ProductDisplay.vue';
 import SelectionList from './inputs/SelectionList.vue';
 import mapInfo from '../utility/mapInfo.ts';
+import filterCheck from '../utility/filterCheck.ts';
 export default {
   name: 'products',
   data() {
       return {
           products: [],
           filteredProducts: [],
-          filterKeys: ['type', 'colors', 'fabrics'],
+          filterKeys: ['type', 'sizes', 'colors', 'fabrics'],
           criteria: {},
-          filterMap: {}
+          filterMap: {},
       };
   },
   props: {
@@ -62,8 +63,8 @@ export default {
   methods: {
     aggregateData() {
       let aggregation = {};
-      for ( let i = 0; i <= this.products.length - 1; i++ ) {
-        const product = this.products[i];
+      for ( let i = 0; i <= this.filteredProducts.length - 1; i++ ) {
+        const product = this.filteredProducts[i];
         for ( let x = 0; x <= this.filterKeys.length - 1; x++ ) {
           const label = this.filterKeys[x];
           aggregation = mapInfo(label, product, aggregation);
@@ -74,30 +75,33 @@ export default {
       return aggregateKeys.length > 0 ? aggregateKeys.map((aggkey) => [aggkey, aggregation[aggkey]]) : [];
     },
     filterProducts(data) {
-      console.log(data, this.filterMap);
       const { filterValue, filterType, action, refresh } = data;
-      this.filterMap = {...this.filterMap, }
+      this.filterMap = { ...this.filterMap };
       if (refresh) {
         this.filterMap[filterType] = [];
+        this.filteredProducts = this.products.slice();
       }
-      if (filterValue !== 'All') {
+      if (filterValue.toLowerCase() !== 'all') {
         if (action === 'add') {
           this.filterMap[filterType] = this.filterMap[filterType].concat(filterValue);
         } else {
-          this.filterMap[filterType] = this.filterMap[filterType].filter((val) => val !== filterValue )
+          this.filterMap[filterType] = this.filterMap[filterType].filter((val) => val !== filterValue);
         }
       }
-      for (let label in this.filterMap) {
-        const filterArr = this.filterMap[label];
-        console.log('filterArr', filterArr);
-        if (filterArr.length > 0) {
-          if (filtyerType !== 'colors' && filterType !== 'fabrics') {
-            this.filteredProducts = this.products.filter((product) => filterArr.includes(product[filterType]))
-          } else {
-            
+      this.filteredProducts = this.products.filter((product) => {
+        for (let i = 0; i <= this.filterKeys.length - 1; i++) {
+          const label = this.filterKeys[i];
+          if (this.filterMap.hasOwnProperty(label)) {
+            const filterArr = this.filterMap[label];
+            if (filterArr.length > 0) {
+              if (!filterCheck(filterArr, product[label])) {
+                return false;
+              }
+            }
           }
         }
-      }
+        return true;
+      });
     },
   },
   async mounted() {

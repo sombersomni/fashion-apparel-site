@@ -3,14 +3,14 @@
     >
         <div 
             class="check-square" 
-            @click="onSelect()">
+            @click="onSelect(label)">
             <font-awesome-icon 
-                v-if="onCheck(reset, onlyAll)"
+                v-if="onCheck(label, reset, onlyAll)"
                 :icon="['far', 'check']"
                 size="1x"
                 :style="selectionState" /> 
         </div>
-        <p>{{label}} {{keepCount ? `(${count})` : ""}}</p>
+        <p :style="{textTransform: type === 'sizes' ? 'uppercase' : 'capitalize'}">{{label}} {{keepCount ? `(${count})` : ""}}</p>
 
     </div>
 </template>
@@ -35,13 +35,17 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
             type: Boolean,
             default: true,
         },
+        reset : {
+            type: Boolean,
+            default: true,
+        },
+        type: {
+            type: String,
+        },
     },
 })
 export default class Selection extends Vue {
-    @Prop({default: true}) 
-    public reset: boolean;
-
-    public toggleCheck: boolean = this.label === 'All';
+    public toggleCheck: boolean = this.label.toLowerCase() === 'all';
     private selectionState = {
         margin: 0,
         padding: 0,
@@ -52,31 +56,26 @@ export default class Selection extends Vue {
         color: '#333',
     };
 
-    public onSelect() {
+    public onSelect(label: string) {
         this.toggleCheck = !this.toggleCheck;
-        this.$emit('onSelectedFilter', { filterValue: this.label, action: this.toggleCheck ? 'add' : 'remove' });
+        this.$emit('onSelectedFilter', { filterValue: label, action: this.toggleCheck ? 'add' : 'remove' });
     }
 
-    public onCheck(reset: boolean, onlyAll: boolean) {
-        console.log('reset :', reset);
-
+    public onCheck(label: string, reset: boolean, onlyAll: boolean) {
         if (reset || onlyAll) {
-            this.toggleCheck = this.label === 'All';
+            this.toggleCheck = label.toLowerCase() === 'all';
         } else {
-            if (this.label === 'All') {
+            if (label.toLowerCase() === 'all') {
                 this.toggleCheck = false;
             }
         }
         return this.toggleCheck;
     }
-
-
 }
 </script>
 
 <style scoped>
 p {
-    text-transform: capitalize;
     font-weight: bold;
 }
 
@@ -89,6 +88,7 @@ p {
     font-style: italic;
     font-size: .8em;
     width: 125px;
+    cursor: pointer;
 }
 
 .check-square {
