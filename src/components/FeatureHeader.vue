@@ -56,16 +56,5 @@ img {
   height: auto;
 }
 
-.shop-btn {
-  margin-right: 10px;
-  padding: 5px 10px;
-  border: 2px solid #333;
-  font-weight: bold;
-  background: transparent;
-  transform: scale(1);
-}
-.shop-btn:hover {
-  cursor: pointer;
-  transform: scale(0.95);
-}
+
 </style>

@@ -88,7 +88,6 @@ p {
     font-style: italic;
     font-size: .8em;
     width: 125px;
-    cursor: pointer;
 }
 
 .check-square {

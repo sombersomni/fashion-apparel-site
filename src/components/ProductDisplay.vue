@@ -1,29 +1,31 @@
 <template>
-    <div class="product-display">
-        <SalesTag v-if="sale > 0" :sale="sale"/>
-        <div class="img-frame">
-            <img 
-            :src="imgsEndpoint + feature_img" 
-            :aria-label="name"/>
-        </div>
-        <div class="product-display-info">     
-            <h5>{{name}}</h5>
-            <div class="color-container">
-                <h6>color set | </h6>
-                <div
-                    v-for="color in colors"
-                    :key="color"
-                    :style="{background: color}"
-                    class="color-profile"
-                    >
-                </div>
+    <router-link :to="'/' + id">
+        <div class="product-display">
+            <SalesTag v-if="sale > 0" :sale="sale"/>
+            <div class="img-frame">
+                <img 
+                :src="imgsEndpoint + feature_img" 
+                :aria-label="name"/>
             </div>
-            <p>
-                <span :style="{ color: sale > 0 ? 'red' : '#333'}">${{price}}</span>
-                 <span v-if="sale > 0"> (reduced price)</span>
-            </p>
+            <div class="product-display-info">     
+                <h5>{{name}}</h5>
+                <div class="color-container">
+                    <h6>color set | </h6>
+                    <div
+                        v-for="color in colors"
+                        :key="color"
+                        :style="{background: color}"
+                        class="color-profile"
+                        >
+                    </div>
+                </div>
+                <p>
+                    <span :style="{ color: sale > 0 ? 'red' : '#333'}">${{price}}</span>
+                    <span v-if="sale > 0"> (reduced price)</span>
+                </p>
+            </div>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script lang="ts">
@@ -35,6 +37,10 @@ import SalesTag from './SalesTag.vue';
         SalesTag,
     },
     props: {
+        id: {
+            type: String,
+            required: true,
+        },
         feature_img: {
             type: String,
             required: true,
@@ -58,7 +64,7 @@ import SalesTag from './SalesTag.vue';
     },
 })
 export default class ProductDisplay extends Vue {
-    private imgsEndpoint: string = 'http://localhost:8080/imgs';
+    private imgsEndpoint: string = '/imgs';
 }
 </script>
 
@@ -101,6 +107,7 @@ h1,h2,h3,h4, h5, h6 {
     text-align: left;
     margin: 0px 10px;
     position: relative;
+    cursor: pointer;
 }
 
 .product-display-info {

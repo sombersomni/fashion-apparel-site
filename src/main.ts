@@ -2,11 +2,12 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSortUp, faSortDown } from '@fortawesome/pro-solid-svg-icons';
-import { faCheck } from '@fortawesome/pro-regular-svg-icons';
+import { faSortUp, faSortDown, faHeart as solidHeart } from '@fortawesome/pro-solid-svg-icons';
+import { faCheck, faHeart } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import store from './store'
 
-library.add(faCheck, faSortUp, faSortDown);
+library.add(faCheck, faSortUp, faSortDown, faHeart, solidHeart);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
@@ -14,5 +15,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
-  render: (h) => h(App),
+  store,
+  render: (h) => h(App)
 }).$mount('#app');

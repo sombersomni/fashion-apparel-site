@@ -14,6 +14,7 @@
             <ProductDisplay 
                     v-for="product in filteredProducts"
                     :key="product.id"
+                    :id="product.id"
                     :name="product.name"
                     :feature_img="product.feature_img"
                     :colors="product.colors"
