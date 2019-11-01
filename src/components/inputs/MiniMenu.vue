@@ -39,7 +39,7 @@
             bottom: '10px',
             right: '10px',
             zIndex: 10,
-        }
+        };
         toggleMiniMenu(label: string, otherOpen: boolean) {
             console.log(otherOpen, 'is open');
             if (otherOpen) {

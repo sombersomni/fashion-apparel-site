@@ -105,12 +105,23 @@ export default {
                     (prevVal, currentVal) => prevVal.concat(currentVal), []);
                 this.product = this.products.find((product) => product.id === id);
                 this.selectedItem = { color: this.product.colors[0], size: this.product.sizes[0] };
-            } catch(err) {
+            } catch (err) {
                 console.log(err);
             }
         },
         addToBag() {
             console.log('add to bag');
+            const { feature_img, id, price } = this.product;
+            const { size, color } = this.selectedItem;
+            const item = {
+                product_img: feature_img,
+                id,
+                size,
+                color,
+                price,
+                quantity: 1,
+            };
+            this.$store.commit({ type: 'addToCart', item });
         },
         toggleHeart() {
             this.heartFull = !this.heartFull;
@@ -121,18 +132,18 @@ export default {
             if (open) {
                 this.currentMenuType = menuType;
                 this.menuItems = this.product[menuType + 's'];
-            } 
+            }
         },
         selectItem(item) {
             this.selectedItem = {...this.selectedItem, [this.currentMenuType]: item};
-        }
+        },
     },
     watch: {
         async $route(to, from) {
             if (this.products.length === 0) {
                 this.getProduct();
             } else {
-                this.product = this.products.find(product => product.id === to.params.id);
+                this.product = this.products.find((product) => product.id === to.params.id);
                 this.selectedItem = { color: this.product.colors[0], size: this.product.sizes[0] };
             }
         },
