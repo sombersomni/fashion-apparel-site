@@ -1,16 +1,24 @@
 <template>
     <div class="main-container">
         <div class="product-top-container" v-show="product !== null">
-            <div class="product-feature">
+            <div 
+                @mousemove="zoomImage()"
+                @mouseenter="zoomIn()"
+                @mouseleave="zoomOut()"
+                class="product-feature">
                 <img 
-                    :style="{width: '300px'}"
-                    :src="'/imgs' + product.feature_img" 
-                    :aria-label="product.name"/>
+                    :style="{
+                        width: allowZoom ? 'auto' : '100%',
+                        top: 0,
+                        left: 0,
+                        }"
+                    :src="'/imgs' + (product ? product.feature_img : '')" 
+                    :aria-label="product ? product.name : 'none'"/>
             </div>
             <div class="product-purchase">
-                <h1>{{product.name}}</h1>
+                <h1 style="text-transform: capitalize;">{{product ? product.name : ''}}</h1>
                 <div>
-                    <p>${{product.price}}.00</p>
+                    <p>${{product ? product.price : 0}}.00</p>
                 </div>
                 <div class="product-select-container">
                     <MiniMenu 
@@ -80,10 +88,11 @@ export default {
     },
     data() {
         return {
+            allowZoom: false,
             currentMenuType: '',
             heartFull: false,
             products: [],
-            product: { colors: [], sizes: [] },
+            product: { colors: [], sizes: [], feature_img: '' },
             openMenu: false,
             menuItems: [],
             selectedItem: {
@@ -104,18 +113,20 @@ export default {
                 this.products = Object.values(data).reduce(
                     (prevVal, currentVal) => prevVal.concat(currentVal), []);
                 this.product = this.products.find((product) => product.id === id);
-                this.selectedItem = { color: this.product.colors[0], size: this.product.sizes[0] };
+                if (this.product) {
+                    this.selectedItem = { color: this.product.colors[0], size: this.product.sizes[0] };
+                }
             } catch (err) {
                 console.log(err);
             }
         },
         addToBag() {
-            console.log('add to bag');
-            const { feature_img, id, price } = this.product;
+            const { feature_img, id, price, name } = this.product;
             const { size, color } = this.selectedItem;
             const item = {
                 product_img: feature_img,
                 id,
+                name,
                 size,
                 color,
                 price,
@@ -137,14 +148,25 @@ export default {
         selectItem(item) {
             this.selectedItem = {...this.selectedItem, [this.currentMenuType]: item};
         },
+        zoomImage() {
+
+        },
+        zoomIn() {
+            this.allowZoom = true;
+        },
+        zoomOut() {
+            this.allowZoom = false;
+        },
     },
     watch: {
         async $route(to, from) {
-            if (this.products.length === 0) {
-                this.getProduct();
-            } else {
-                this.product = this.products.find((product) => product.id === to.params.id);
-                this.selectedItem = { color: this.product.colors[0], size: this.product.sizes[0] };
+            if (to.name === 'women-product' || to.name === 'men-product') {
+                if (this.products.length === 0) {
+                    this.getProduct();
+                } else {
+                    this.product = this.products.find((product) => product.id === to.params.id);
+                    this.selectedItem = { color: this.product.colors[0], size: this.product.sizes[0] };
+                }
             }
         },
     },
@@ -155,8 +177,12 @@ export default {
 .product-feature {
     position: relative;
     overflow: hidden;
-    width: 300px;
-    height: 450px;
+    width: 400px;
+    min-width: 300px;
+    max-height: 600px;  
+    min-height: 450px;
+    margin: 0px 25px;
+    cursor: zoom-in;
 }
 
 .product-select-container {
@@ -188,13 +214,6 @@ export default {
     align-items: center;
 }
 
-.block-btn {
-    padding: 15px 25px;
-    font-size: 1em;
-    font-weight: bold;
-    width: 80%;
-}
-
 .mini-menu {
     padding: 10px;
     display: flex;
@@ -218,5 +237,9 @@ export default {
     border: 2px solid #333;
     opacity: 0.6;
     cursor: pointer;
+}
+
+h1 {
+    margin: 0;
 }
 </style>

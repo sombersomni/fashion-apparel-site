@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="'/' + id">
+    <router-link exact :to="'/' + gender + '/' + id">
         <div class="product-display">
             <SalesTag v-if="sale > 0" :sale="sale"/>
             <div class="img-frame">
@@ -42,6 +42,10 @@ import SalesTag from './SalesTag.vue';
             required: true,
         },
         feature_img: {
+            type: String,
+            required: true,
+        },
+        gender: {
             type: String,
             required: true,
         },

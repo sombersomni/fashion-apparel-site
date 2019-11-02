@@ -40,8 +40,7 @@
             right: '10px',
             zIndex: 10,
         };
-        toggleMiniMenu(label: string, otherOpen: boolean) {
-            console.log(otherOpen, 'is open');
+        private toggleMiniMenu(label: string, otherOpen: boolean) {
             if (otherOpen) {
                 this.flipCaret = true;
             } else {

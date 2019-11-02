@@ -16,7 +16,15 @@ import Navigation from './components/Navigation.vue';
     Navigation,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  mounted() {
+    const savedCartState = window.localStorage.getItem('cartState');
+    if (savedCartState) {
+      const parsedCartState = JSON.parse(savedCartState);
+      this.$store.commit({ type: 'updateCart', cart: parsedCartState.cart });
+    }
+  }
+}
 </script>
 
 <style>

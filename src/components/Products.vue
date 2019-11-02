@@ -16,6 +16,7 @@
                     :key="product.id"
                     :id="product.id"
                     :name="product.name"
+                    :gender="product.gender"
                     :feature_img="product.feature_img"
                     :colors="product.colors"
                     :price="product.price"

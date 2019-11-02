@@ -1,29 +1,95 @@
 <template>
-    <nav>
-        <router-link to="/"><h3>Apparel</h3></router-link>
-        <div class="menu-item"><router-link to="/men">Men</router-link></div>
-        <div class="menu-item"><router-link to="/women">Women</router-link></div>
-        <div class="cart-icon">
-            <font-awesome-icon :icon="['far', 'shopping-bag']" />
+    <div>
+        <div 
+            v-show="openCartPreview || previewOn"
+            class="cart-bg"></div>
+        <nav>
+            <CartPreview 
+                :leftOffset="cartOffset"
+                :open="openCartPreview"
+                @onPreview="previewOn = $event"/>
             <div 
-                class="shop-count"
-                v-if="cartCount > 0">{{cartCount}}</div>
-        </div>
-    </nav>
+                style="justify-content: flex-start;"
+                class="menu-section">
+                <router-link exact to="/"><h3>Apparel</h3></router-link>
+                <div class="menu-item"><router-link exact to="/men">Men</router-link></div>
+                <div class="menu-item"><router-link exact to="/women">Women</router-link></div>
+            </div>
+            <div 
+                style="justify-content: flex-end;"
+                class="menu-section">
+                <div 
+                    @mouseenter="onCartEnter()"
+                    @mouseleave="onCartLeave(cartOffDuration)"
+                    ref="cartIcon"
+                    class="cart-icon">
+                    <font-awesome-icon :icon="['far', 'shopping-bag']" />
+                    <div 
+                        class="shop-count"
+                        v-if="cartCount > 0">
+                        {{cartCount}}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-
-@Component
+import CartPreview from '../components/CartPreview.vue';
+@Component({
+    components: {
+        CartPreview,
+    },
+    props: {
+        cartOffDuration: {
+            type: Number,
+            default: 2500,
+        },
+    },
+})
 export default class Navigation extends Vue {
+    public cartOffset: number = 0;
+    public openCartPreview: boolean = false;
+    public previewOn: boolean = false;
+    public cartLeaveTimeout: any = null;
+    mounted() {
+        this.cartOffset = this.$refs.cartIcon.offsetLeft;
+    }
     get cartCount() {
+        if (this.$refs.cartIcon && this.$store.getters.cartCount > 0) {
+            this.onCartEnter();
+            this.onCartLeave(2500);
+        }
         return this.$store.getters.cartCount;
+    }
+    public onCartEnter() {
+        if (this.cartLeaveTimeout) {
+            window.clearTimeout(this.cartLeaveTimeout);
+        }
+        this.cartOffset = this.$refs.cartIcon.offsetLeft;
+        this.openCartPreview = true;
+    }
+    public onCartLeave(duration: number) {
+        this.cartLeaveTimeout = window.setTimeout(() => {
+            this.openCartPreview = false;
+        }, duration);
     }
 }
 </script>
 
 <style scoped>
+    .cart-bg {
+        background: #333;
+        opacity: 0.25;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        z-index: 9;
+    }
     nav {
         position: fixed;
         display: flex;
@@ -35,6 +101,13 @@ export default class Navigation extends Vue {
         width: 100vw;
         height: 60px;
         z-index: 90;
+    }
+
+    .menu-section {
+        display: flex;
+        align-items: center; 
+        flex-grow: 1;
+        margin: 0px 25px;
     }
     h3 {
         margin: 0px 25px;
@@ -51,6 +124,14 @@ export default class Navigation extends Vue {
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        margin-right: 10px;
+        opacity: 1;
+        transition: opacity 1s;
+    }
+
+    .cart-icon:hover {
+        opacity: 0.6;
+        cursor: pointer;
     }
 
     .shop-count {
@@ -59,5 +140,16 @@ export default class Navigation extends Vue {
         color: #333;
         font-size: 0.75em;
         font-weight: bold;
+    }
+
+    /* animation */
+    .cycle-enter-active, .cycle-leave-active {
+    transition: opacity .5s;
+    }
+    .cycle-enter, .cycle-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    }
+    .cycle-enter-to, .cycle-leave /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 1;
     }
 </style>

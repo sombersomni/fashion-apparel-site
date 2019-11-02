@@ -29,3 +29,10 @@ a {
     cursor: pointer;
     transform: scale(0.98);
 }
+
+.block-btn {
+    padding: 15px 25px;
+    font-size: 1em;
+    font-weight: bold;
+    width: 80%;
+}

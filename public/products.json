@@ -3,7 +3,7 @@
         {
             "id": "3027181",
             "name": "pilgrim blue dress",
-            "gender": "female",
+            "gender": "women",
             "type": "dress",
             "feature_img": "/women/pilgrim-blue-dress-front.jpg",
             "imgs": [
@@ -29,7 +29,7 @@
         {
             "id": "2701544",
             "name": "chun li tennis jacket",
-            "gender": "female",
+            "gender": "women",
             "type": "jacket",
             "feature_img": "/women/chun-li-tennis-jacket-front.jpg",
             "imgs": [
@@ -60,7 +60,7 @@
         {
             "id": "2854436",
             "name": "simple slip dress",
-            "gender": "female",
+            "gender": "women",
             "type": "dress",
             "feature_img": "/women/simple-slip-dress-front.jpg",
             "imgs": [
@@ -92,7 +92,7 @@
         {
             "id": "2854433",
             "name": "test slip dress",
-            "gender": "female",
+            "gender": "women",
             "type": "dress",
             "feature_img": "/women/simple-slip-dress-front.jpg",
             "imgs": [
@@ -124,7 +124,7 @@
         {
             "id": "3027176",
             "name": "detective trench jacket",
-            "gender": "male",
+            "gender": "men",
             "type": "jacket",
             "feature_img": "/men/detective-jacket-front.jpg",
             "imgs": [
@@ -151,7 +151,7 @@
         {
             "id": "2692619",
             "name": "orane patchwork coat",
-            "gender": "male",
+            "gender": "men",
             "type": "jacket",
             "feature_img": "/men/orange-patchwork-coat-front.jpg",
             "imgs": [
