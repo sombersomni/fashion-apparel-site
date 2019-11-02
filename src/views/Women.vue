@@ -33,7 +33,7 @@ export default {
 img { 
     position: absolute;
     width: 100vw;
-    min-width: 500px;
+    min-width: 600px;
     left: 0;
     top: -100px;
 }

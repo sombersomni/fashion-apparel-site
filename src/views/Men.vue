@@ -30,6 +30,6 @@ export default {
 }
 img { 
     width: 100vw;
-    min-width: 500px;
+    min-width: 600px;
 }
 </style>

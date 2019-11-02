@@ -1,8 +1,10 @@
 <template>
     <div>
-        <div 
-            v-show="openCartPreview || previewOn"
-            class="cart-bg"></div>
+        <transition name="fade">
+            <div 
+                v-show="openCartPreview || previewOn"
+                class="modal-bg"></div>
+        </transition>
         <nav>
             <CartPreview 
                 :leftOffset="cartOffset"
@@ -80,16 +82,6 @@ export default class Navigation extends Vue {
 </script>
 
 <style scoped>
-    .cart-bg {
-        background: #333;
-        opacity: 0.25;
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        top: 0;
-        left: 0;
-        z-index: 9;
-    }
     nav {
         position: fixed;
         display: flex;

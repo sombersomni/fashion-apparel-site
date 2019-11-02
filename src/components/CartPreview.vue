@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="cart-preview-checkout">
-            <p>Subtotal - ${{subTotal}}.00</p>
+            <p>Subtotal - ${{subTotal}}</p>
             <button class="shop-btn">Checkout</button>
         </div>
     </div>

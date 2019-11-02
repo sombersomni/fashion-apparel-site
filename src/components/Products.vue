@@ -1,7 +1,9 @@
 <template>
   <div style="margin-top: 20px;"> 
       <div class="wrapper">
-        <div class="filter-display">
+        <div 
+          v-show="!$store.state.mobile"
+          class="filter-display">
           <h1>Filter</h1>
           <SelectionList 
             v-for="agg in aggregateData()"
@@ -107,8 +109,9 @@ export default {
     },
   },
   async mounted() {
+    console.log(this.$store);
     try {
-      const url = 'http://localhost:8080/products.json';
+      const url = '/products.json';
       const response = await fetch(url);
       const data = await response.json();
       this.products = data[this.page];

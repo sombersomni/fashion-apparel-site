@@ -1,21 +1,53 @@
 <template>
     <div class="main-container">
+        <ContactModal 
+            :open="modalOpen"
+            @onCloseModal="modalOpen = $event" />
+        <font-awesome-icon
+            v-show="allowZoom"
+            :style="{top: mouseY, left: mouseX}"
+            class="zoom-mouse" 
+            size="2x"
+            :icon="['fal', 'plus-circle']"/>
         <div class="product-top-container" v-show="product !== null">
-            <div 
-                @mousemove="zoomImage()"
-                @mouseenter="zoomIn()"
-                @mouseleave="zoomOut()"
-                class="product-feature">
-                <img 
+            <div class="product-feature-container">
+                <div 
+                    class="product-pics-container"
                     :style="{
-                        width: allowZoom ? 'auto' : '100%',
-                        top: 0,
-                        left: 0,
-                        }"
-                    :src="'/imgs' + (product ? product.feature_img : '')" 
-                    :aria-label="product ? product.name : 'none'"/>
+                        flexDirection: $store.state.currentWidth < 1000 ? 'row' : 'column',
+                        marginTop: $store.state.currentWidth < 1000 ? '5px' : '0px',
+                        marginRight: $store.state.currentWidth < 1000 ? '0px' : '10px',
+                        }">
+                    <div
+                        v-for="img in product.imgs"
+                        :key="img"
+                        :style="{
+                            marginBottom: $store.state.currentWidth < 1000 ? '0px' : '10px',
+                            marginRight: $store.state.currentWidth < 1000 ? '10px' : '0px',
+                            }"
+                        @click="onImageSelect(img)"
+                        class="product-pic">
+                        <img :src="'/imgs' + img" />
+                    </div>
+                </div>
+                <div 
+                    @mousemove="zoomImage($event)"
+                    @mouseenter="zoomIn()"
+                    @mouseleave="zoomOut()"
+                    class="product-feature">
+                    <div class="feature-cover"></div>
+                    <img 
+                        :style="{
+                            width: allowZoom ? 'auto' : '100%',
+                            transform: `translate(${mainImgX+'px'}, ${mainImgY+'px'})`
+                            }"
+                        :src="'/imgs' + (selectedImage.length > 0 ? selectedImage : '')" 
+                        :aria-label="product ? product.name : 'none'"/>
+                </div>
             </div>
-            <div class="product-purchase">
+            <div 
+                :style="{maxWidth: $store.state.currentWidth < 875 ? '80%' : '35vw'}"
+                class="product-purchase">
                 <h1 style="text-transform: capitalize;">{{product ? product.name : ''}}</h1>
                 <div>
                     <p>${{product ? product.price : 0}}.00</p>
@@ -34,42 +66,46 @@
                         @toggleMenu="handleMenu($event)" 
                         :otherOpen="'size' !== currentMenuType"/>
                 </div>
-                <div 
-                    v-show="openMenu"
-                    class="mini-menu">
+                <transition name="open-menu">
                     <div 
-                        v-for="item in menuItems"
-                        :key="item"
-                        class="mini-menu-item"
-                        @click="selectItem(item)"
-                        :style="{
-                            width: currentMenuType === 'size' ? '50px' : 'auto',
-                            border: selectedItem[currentMenuType]  === item ? '2px solid #333' : '2px solid #FFF' }">
-                            <span 
-                                v-if="currentMenuType === 'size'"
-                                >{{item}}</span>
-                            <span 
-                                v-else
-                                :style="{
-                                    display: 'block',
-                                    width: '25px',
-                                    height: '25px',
-                                    background: item}"></span>
-                        </div>
-                </div>
+                        v-show="openMenu"
+                        class="mini-menu">
+                        <div 
+                            v-for="item in menuItems"
+                            :key="item"
+                            class="mini-menu-item"
+                            @click="selectItem(item)"
+                            :style="{
+                                width: currentMenuType === 'size' ? '50px' : 'auto',
+                                border: selectedItem[currentMenuType]  === item ? '2px solid #333' : '2px solid #FFF' }">
+                                <span 
+                                    v-if="currentMenuType === 'size'"
+                                    >{{item}}</span>
+                                <span 
+                                    v-else
+                                    :style="{
+                                        display: 'block',
+                                        width: '25px',
+                                        height: '25px',
+                                        background: item}"></span>
+                            </div>
+                    </div>
+                </transition>
                 <div>
-                    <p>Free Shipping and Returns
+                    <p style="text-align: left;">Free Shipping and Returns
                         Place your order today and receive it within 3-5 working days    
-                        <a>Find Out</a> more or <a>Contact Us</a></p>
+                        <a @click="openModal()">Contact Us</a></p>
                 </div>
                 <div class="product-interactive">
                     <button 
+                    
                         style="color: white; background: black;"
-                        class="shop-btn block-btn"
+                        class="shop-btn block-btn product-interactive-item"
                         @click="addToBag()">Add to Bag</button>
                     <font-awesome-icon 
                         @click="toggleHeart()"
                         size="2x"
+                        class="product-interactive-item"
                         style="margin: 0px 10px; cursor: pointer;"
                         :icon="[heartFull ? 'fas' : 'far', 'heart']"/>
                 </div>
@@ -81,10 +117,12 @@
 
 <script>
 import MiniMenu from '../components/inputs/MiniMenu.vue';
+import ContactModal from '../components/modals/ContactModal.vue';
 export default {
     name: 'product',
     components: {
         MiniMenu,
+        ContactModal,
     },
     data() {
         return {
@@ -99,6 +137,12 @@ export default {
                 color: '-',
                 size: '-',
             },
+            selectedImage: '',
+            mainImgX: 0,
+            mainImgY: 0,
+            mouseX: 0,
+            mouseY: 0,
+            modalOpen: false,
         };
     },
     mounted() {
@@ -107,7 +151,7 @@ export default {
     methods: {
         async getProduct(id) {
             try {
-                const url = 'http://localhost:8080/products.json';
+                const url = '/products.json';
                 const response = await fetch(url);
                 const data = await response.json();
                 this.products = Object.values(data).reduce(
@@ -115,6 +159,7 @@ export default {
                 this.product = this.products.find((product) => product.id === id);
                 if (this.product) {
                     this.selectedItem = { color: this.product.colors[0], size: this.product.sizes[0] };
+                    this.selectedImage = this.product.feature_img;
                 }
             } catch (err) {
                 console.log(err);
@@ -145,27 +190,53 @@ export default {
                 this.menuItems = this.product[menuType + 's'];
             }
         },
+        onImageSelect(img) {
+            this.selectedImage = img;
+        },
         selectItem(item) {
             this.selectedItem = {...this.selectedItem, [this.currentMenuType]: item};
         },
-        zoomImage() {
-
+        zoomImage(e) {
+            const frameWidth = e.srcElement.clientWidth;
+            const frameHeight = e.srcElement.clientHeight;
+            const imgWidth = e.srcElement.nextElementSibling ? e.srcElement.nextElementSibling.naturalWidth : 1920;
+            const imgHeight = e.srcElement.nextElementSibling ? e.srcElement.nextElementSibling.naturalHeight : 1080;
+            const mouseX = e.offsetX;
+            const mouseY = e.offsetY;
+            const newWidth = imgWidth - frameWidth;
+            const newHeight = imgHeight - frameHeight;
+            const xSteps = newWidth / frameWidth;
+            const ySteps = newHeight / frameHeight;
+            this.mainImgX = mouseX * xSteps * -1;
+            this.mainImgY = mouseY * ySteps * -1;
+            this.mouseX = e.x - 40;
+            this.mouseY = e.y + 40;
         },
         zoomIn() {
             this.allowZoom = true;
+            this.mainImgX = 0;
+            this.mainImgY = 0;
         },
         zoomOut() {
             this.allowZoom = false;
+            this.mainImgX = 0;
+            this.mainImgY = 0;
+        },
+        openModal() {
+            this.modalOpen = true;
         },
     },
     watch: {
         async $route(to, from) {
             if (to.name === 'women-product' || to.name === 'men-product') {
+                this.currentMenuType = '';
+                this.openMenu = false;
                 if (this.products.length === 0) {
                     this.getProduct();
                 } else {
                     this.product = this.products.find((product) => product.id === to.params.id);
                     this.selectedItem = { color: this.product.colors[0], size: this.product.sizes[0] };
+                    this.selectedImage = this.product.feature_img;
                 }
             }
         },
@@ -174,23 +245,36 @@ export default {
 </script>
 
 <style scoped>
+.zoom-mouse {
+    position: absolute;
+    z-index: 90;
+}
 .product-feature {
     position: relative;
     overflow: hidden;
-    width: 400px;
+    max-width: 400px;
     min-width: 300px;
     max-height: 600px;  
     min-height: 450px;
-    margin: 0px 25px;
-    cursor: zoom-in;
+    cursor: none;
 }
+.product-feature-container {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    max-width: 50vw;
+    min-width: 300px;
+    margin: 0px 25px;
+    min-height: 450px;
 
+}
 .product-select-container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     width: 100%;
     cursor: pointer;
+    background: white;
+    z-index: 2;
 }
 
 .product-top-container {
@@ -199,11 +283,33 @@ export default {
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: center;
+    width: 100vw;
 }
 .product-purchase {
-    width: 400px;
-    min-width: 250px;
+    min-width: 200px;
     padding: 25px;
+    margin: 0px 0px 25px 0px;
+    transition: width 1s;
+}
+.product-pics-container {
+    display: flex;
+    justify-content: flex-start;
+}
+.product-pic {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    opacity: 1;
+    transition: opacity 1s;
+}
+
+.product-pic:hover {
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.product-pic > img {
+    width: 100%;
 }
 
 .product-interactive {
@@ -214,6 +320,9 @@ export default {
     align-items: center;
 }
 
+.product-interactive-item {
+    flex-grow: 1;
+}
 .mini-menu {
     padding: 10px;
     display: flex;
@@ -222,6 +331,9 @@ export default {
     font-size: 1.2em;
     text-transform: uppercase;
     font-weight: 400;
+    height: 45px;
+    z-index: 0;
+    overflow-y: hidden;
 }
 
 .mini-menu-item {
@@ -230,7 +342,7 @@ export default {
     padding: 5px;
     border: 2px solid #FFF;
     opacity: 1;
-    transition: border 1s, opacity 1s;
+    transition: border 0.5s, opacity 0.5s;
 }
 
 .mini-menu-item:hover {
@@ -239,7 +351,37 @@ export default {
     cursor: pointer;
 }
 
+.feature-cover {
+    position: absolute;
+    background: #333;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+a {
+    text-decoration: underline;
+    color:rebeccapurple;
+    cursor: pointer;
+}
+
 h1 {
     margin: 0;
+}
+
+/* animation */
+.open-menu-enter-active, .open-menu-leave-active {
+    transition: 1s;
+}
+.open-menu-enter, .open-menu-leave-to {
+    opacity: 0;
+    height: 0px;
+}
+.open-menu-enter-to, .open-menu-leave {
+    opacity: 1;
+    height: 45px;
 }
 </style>
