@@ -14,7 +14,12 @@ a {
 
 .main-container {
     padding-top: 60px;
-    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.underline {
+    border-bottom: 2px solid white;
+    width: 90%;
 }
 
 .shop-btn {

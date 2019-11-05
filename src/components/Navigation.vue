@@ -101,13 +101,14 @@ export default class Navigation extends Vue {
         flex-grow: 1;
         margin: 0px 25px;
     }
-    h3 {
-        margin: 0px 25px;
+    nav h3 {
+        margin: 0px 10px;
+        font-style: italic;
     }
 
     .menu-item {
         font-weight: bold;
-        margin: 0px 10px;
+        margin-right: 10px;
     }
 
     .cart-icon {

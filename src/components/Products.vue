@@ -1,8 +1,34 @@
 <template>
   <div style="margin-top: 20px;"> 
+      <div v-show="openFilter"
+        class="modal-bg"></div>
       <div class="wrapper">
+        <div
+          v-if="$store.state.mobile"
+          class="filter-display-mobile-container"
+          :style="{ 
+            left: (openFilter ? -10 : -210) + 'px',
+            position: hitScrollMark ? 'fixed' : 'absolute',
+            top: (hitScrollMark ? 65 : 265) + 'px'}">
+          <div 
+            class="filter-tab"
+            @click="onFilterTabClick()">
+            <font-awesome-icon :icon="['fal', 'sliders-h']" />
+            <p>filter</p>
+          </div>
+          <div class="filter-display-mobile">
+            <h1>Filter</h1>
+            <SelectionList 
+              v-for="agg in aggregateData()"
+              :key="agg[0]"
+              :filterLabel="agg[0]"
+              :filterValues="agg[1]"
+              @onUpdateFilter="filterProducts($event)"
+              @onCloseFilter="openFilter = $event"/>
+          </div>
+        </div>
         <div 
-          v-show="!$store.state.mobile"
+          v-else
           class="filter-display">
           <h1>Filter</h1>
           <SelectionList 
@@ -43,6 +69,8 @@ export default {
           filterKeys: ['type', 'sizes', 'colors', 'fabrics'],
           criteria: {},
           filterMap: {},
+          openFilter: false,
+          hitScrollMark: false,
       };
   },
   props: {
@@ -65,6 +93,9 @@ export default {
     this.filterMap = newFilterMap;
   },
   methods: {
+    onFilterTabClick() {
+      this.openFilter = !this.openFilter;
+    },
     aggregateData() {
       let aggregation = {};
       for ( let i = 0; i <= this.filteredProducts.length - 1; i++ ) {
@@ -107,9 +138,16 @@ export default {
         return true;
       });
     },
+    trackScroll(e) {
+      if (window.scrollY > 200) {
+        this.hitScrollMark = true;
+      } else {
+        this.hitScrollMark = false;
+      }
+    },
   },
   async mounted() {
-    console.log(this.$store);
+    window.addEventListener('scroll', this.trackScroll);
     try {
       const url = '/products.json';
       const response = await fetch(url);
@@ -122,6 +160,9 @@ export default {
       console.log(err);
     }
   },
+  destroyed() {
+    window.removeEventListener('scroll', this.trackScroll);
+  },
 };
 </script>
 
@@ -132,6 +173,38 @@ export default {
   min-width: 200px;
   width: 25%;
   margin: 0px 10px;
+}
+
+.filter-display-mobile {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  margin: 0px 10px;
+  height: 70vh;
+}
+
+.filter-display-mobile-container {
+  width: 210px;
+  z-index: 99;
+  background: white;
+  transition: left 1s;
+}
+
+.filter-tab {
+  position: absolute;
+  right: -44px;
+  top: 0px;
+  padding: 10px;
+  z-index: 0;
+  background: #333;
+  color: white;
+  width: 25px;
+  font-size: 0.75em;
+}
+
+.filter-tab:hover {
+  cursor: pointer;
 }
 
 .filter-display > h1 {
@@ -154,5 +227,6 @@ export default {
     flex-wrap: nowrap;
     justify-content: center;
     align-items: flex-start;
+    padding-bottom: 25px;
 }
 </style>

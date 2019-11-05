@@ -1,8 +1,16 @@
 <template>
     <router-link exact :to="'/' + gender + '/' + id">
-        <div class="product-display">
+        <div
+            class="product-display"
+            :style="{ 
+                width: ($store.state.mobile ? 140 : 280) + 'px',
+                margin: $store.state.mobile ? '0px 5px' : '0px 10px'}">
             <SalesTag v-if="sale > 0" :sale="sale"/>
-            <div class="img-frame">
+            <div 
+                :style="{
+                    width: ($store.state.mobile ? 140 : 280) + 'px',
+                    height: ($store.state.mobile ? 200 : 400) + 'px'}"
+                class="img-frame">
                 <img 
                 :src="imgsEndpoint + feature_img" 
                 :aria-label="name"/>
@@ -78,8 +86,6 @@ img {
 }
 
 .img-frame {
-    width: 280px;
-    height: 400px;
     overflow: hidden;
 }
 .color-container {
@@ -107,9 +113,7 @@ h1,h2,h3,h4, h5, h6 {
     justify-content: flex-start;
     align-items: center;
     max-width: 300px;
-    width: 280px;
     text-align: left;
-    margin: 0px 10px;
     position: relative;
     cursor: pointer;
 }

@@ -46,7 +46,6 @@ export default class CartPreview extends Vue {
     private stayOpen: boolean = false;
 
     mounted() {
-        console.log(this.$refs);
         this.$refs.cartPreview.scrollTop = 0;
     }
     get subTotal() {

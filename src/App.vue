@@ -4,17 +4,20 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <Footer />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Navigation from './components/Navigation.vue';
+import Footer from './components/Footer.vue';
 import Rx from 'rx-lite';
 
 @Component({
   components: {
     Navigation,
+    Footer,
   },
 })
 export default class App extends Vue {
@@ -32,9 +35,7 @@ export default class App extends Vue {
     });
 
   }
-  destroyed() {
-    //this.resizeSubscription.unsubscribe();
-  }
+  destroyed() {}
 }
 </script>
 
@@ -46,5 +47,6 @@ export default class App extends Vue {
   text-align: center;
   color: #2c3e50;
   margin: 0;
+  overflow-x: hidden;
 }
 </style>

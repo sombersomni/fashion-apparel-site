@@ -111,6 +111,23 @@
                 </div>
             </div>
         </div>
+        <div class="info-module-container">
+            <div class="info-module">
+                <font-awesome-icon size="2x" :icon="['far', 'truck']" />
+                <h4>Free Standard Shipping</h4>
+                <p>Place your order today and receive it within 3-5 working days</p>
+            </div>
+            <div class="info-module">
+                <font-awesome-icon size="2x" :icon="['far', 'bags-shopping']" />
+                <h4>Collect-in-Store</h4>
+                <p>Order online today and pick up your items in store as early as tomorrow</p>
+            </div>
+            <div class="info-module">
+                <font-awesome-icon size="2x" :icon="['far', 'truck']" />
+                <h4>Free Gift Packaging</h4>
+                <p>Our gift packaging includes a signature gift box finished with a hand-tied ribbon</p>
+            </div>
+        </div>
     </div>
 
 </template>
@@ -229,6 +246,7 @@ export default {
     watch: {
         async $route(to, from) {
             if (to.name === 'women-product' || to.name === 'men-product') {
+                window.scrollTo(0,0);
                 this.currentMenuType = '';
                 this.openMenu = false;
                 if (this.products.length === 0) {
@@ -245,6 +263,27 @@ export default {
 </script>
 
 <style scoped>
+.info-module-container {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 25px;
+}
+
+.info-module {
+    min-width: 280px;
+    width: 300px;
+    margin: 0px 25px;
+    padding: 10px;
+}
+
+.info-module > p {
+    padding: 0px 20px;
+}
+
 .zoom-mouse {
     position: absolute;
     z-index: 90;

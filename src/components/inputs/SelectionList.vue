@@ -1,5 +1,7 @@
 <template>
-    <section class="filter-container">
+    <section 
+        class="filter-container"
+        @click="closeFilter($event)">
       <div class="filter-label">
         <h4>{{filterLabel}}</h4>
         <font-awesome-icon 
@@ -54,7 +56,10 @@ export default class SelectionList extends Vue {
 
   public sortStyle: any = {
       marginTop: '5px',
+      padding: '5px',
       cursor: 'pointer',
+      background: 'transparent',
+      width: '100px',
   };
   public resetFilterList: boolean = true;
   public numOfSelected: number = 0;
@@ -86,6 +91,17 @@ export default class SelectionList extends Vue {
 
   public toggleSort() {
       this.sortOn = !this.sortOn;
+  }
+
+  public closeFilter(e: any) {
+      e.stopPropagation();
+      const isFilterLabel: boolean = (e.target.nodeName === 'DIV' && e.target.className === 'filter-label');
+      const isFilter: boolean = (e.target.nodeName === 'DIV' && e.target.className === 'filter');
+      const isHeader: boolean = (e.target.nodeName === 'H4' || e.target.nodeName === 'H1');
+
+      if (isFilterLabel || isFilter || isHeader) {
+          this.$emit('onCloseFilter', false);
+      }
   }
 
   public updateFilter(data: { filterValue: string, action: string }, filterLabel: string) {

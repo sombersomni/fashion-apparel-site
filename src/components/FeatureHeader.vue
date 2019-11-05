@@ -1,16 +1,34 @@
 <template>
-  <div class="main-container">
+  <div clas="main-container">
     <div class="feature-header-container">
-      <div id="feature-title">
-        <h1>{{ companyName }}</h1>
-        <h3>Apparel.</h3>
+      <div 
+        :style="{ 
+            left: $store.state.mobile ? '50%' : '10%',
+            transform: $store.state.mobile ? 'translate(-50%, -50%)' : 'translate(0px,-50%)',
+        }"
+        id="feature-title">
+        <h1
+          :style="{ 
+            fontSize: $store.state.mobile ? '2em' : '3em' }">Meet the new Mobius Collection</h1>
         <div class="underline"></div>
-        <p class="desc">Stay fresh but professional</p>
-        <div>
-           <router-link to="/men"><button class="shop-btn">Shop Men</button></router-link>
-          <router-link to="/women"><button class="shop-btn">Shop Women</button></router-link>
-        </div>
+        <h3>Reach new heights and alter your perception with our new attire</h3>
       </div>
+      <video 
+        class="feature-media"
+        v-if="canPlayVideo"
+        :style="{ 
+          transform: $store.state.mobile ? 'translateX(20%)' : 'translateX(0)' }"
+        ref="videoRef" 
+        autoplay muted loop>
+        <source src="../assets/videos/hill-woman.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+      </video>
+      <img 
+        v-else
+       :style="{ transform: $store.state.mobile ? 'translateX(20%)' : 'translateX(0)' }"
+        class="feature-media" 
+        src='../assets/imgs/feature/header.jpg' 
+        aria-label="feature" />
     </div>
   </div>
 </template>
@@ -21,8 +39,27 @@ import { Component, Vue } from 'vue-property-decorator';
   props: {
     companyName: String,
   },
+  watch: {
+    $route(to){
+      if (to.name === 'home') {
+        this.$refs.videoRef.loop = true;
+        this.$refs.videoRef.play();
+      } else {
+        this.$refs.videoRef.pause();
+      }
+    },
+  },
 })
-export default class FeatureHeader extends Vue {}
+export default class FeatureHeader extends Vue {
+  private canPlayVideo: boolean = true;
+  private largeHeight: boolean = true;
+  mounted() {
+    console.log(window.innerHeight);
+    this.largeHeight = window.innerHeight > 800;
+    const check = this.$refs.videoRef.canPlayType('video/mp4');
+    this.canPlayVideo = check.length > 0;
+  }
+}
 </script>
 
 <style scoped>
@@ -36,25 +73,33 @@ img {
 }
 
 .feature-header-container {
-  background: url("../assets/imgs/feature/header.jpg") no-repeat;
-  background-size: cover;
-  background-position-x: right;
   margin: 0;
   padding: 0;
   width: 100vw;
-  height: 100vh;
+  height: auto;
+  max-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  overflow: hidden;
 }
-.underline {
-  border-bottom: 2px solid white;
-  width: 90%;
-}
+
 #feature-title {
   position: absolute;
-  top: 85px;
-  left: 25px;
   width: 300px;
   height: auto;
+  color: white;
+  z-index: 10;
+  top: 50%;
 }
 
+#feature-title > h1 {
+  padding: 20px;
+}
 
+.feature-media {
+  min-height: 100vh;
+  width: 1920px;
+  min-width: 1280px;
+}
 </style>
