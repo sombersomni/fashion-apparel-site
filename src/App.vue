@@ -12,7 +12,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Navigation from './components/Navigation.vue';
 import Footer from './components/Footer.vue';
-import Rx from 'rx-lite';
 
 @Component({
   components: {
@@ -21,21 +20,21 @@ import Rx from 'rx-lite';
   },
 })
 export default class App extends Vue {
-  private resizeSubscription: Rx.Subscription;
   mounted() {
     const savedCartState = window.localStorage.getItem('cartState');
     if (savedCartState) {
       const parsedCartState = JSON.parse(savedCartState);
-      this.$store.commit({ type: 'updateCart', cart: parsedCartState.cart });
+      this.$store.commit({ type: 'updateCart', cart: parsedCartState.cart, onAuto: true });
     }
     this.$store.commit('setMobile', window.innerWidth);
-    const resize$ = Rx.Observable.fromEvent(window, 'resize').debounce(200);
-    this.resizeSubscription = resize$.subscribe((e: any) => {
-      this.$store.commit('setMobile', e.target.innerWidth);
-    });
-
+    window.addEventListener('resize', this.manageResize);
   }
-  destroyed() {}
+  destroyed() {
+    window.removeEventListener('resize', this.manageResize);
+  }
+  private manageResize(e) {
+    this.$store.commit('setMobile', e.target.innerWidth);
+  }
 }
 </script>
 

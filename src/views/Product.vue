@@ -281,7 +281,7 @@ export default {
     watch: {
         async $route(to, from) {
             if (to.name === 'women-product' || to.name === 'men-product') {
-                window.scrollTo(0,0);
+                window.scrollTo(0, 0);
                 this.currentMenuType = '';
                 this.openMenu = false;
                 if (this.products.length === 0) {

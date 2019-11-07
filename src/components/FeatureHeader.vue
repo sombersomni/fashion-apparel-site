@@ -40,7 +40,7 @@ import { Component, Vue } from 'vue-property-decorator';
     companyName: String,
   },
   watch: {
-    $route(to){
+    $route(to) {
       if (to.name === 'home') {
         this.$refs.videoRef.loop = true;
         this.$refs.videoRef.play();
@@ -54,7 +54,6 @@ export default class FeatureHeader extends Vue {
   private canPlayVideo: boolean = true;
   private largeHeight: boolean = true;
   mounted() {
-    console.log(window.innerHeight);
     this.largeHeight = window.innerHeight > 800;
     const check = this.$refs.videoRef.canPlayType('video/mp4');
     this.canPlayVideo = check.length > 0;

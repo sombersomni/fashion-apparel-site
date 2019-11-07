@@ -54,7 +54,7 @@ export default class Footer extends Vue {
         marginRight: '10px',
         marginTop: '10px',
     };
-    onSubmitEmail(e) {
+    private onSubmitEmail(e: any) {
         e.preventDefault();
         this.$refs.inputRef.value = '';
     }

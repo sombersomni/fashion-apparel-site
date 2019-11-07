@@ -22,7 +22,9 @@
         </div>
         <div class="cart-preview-checkout">
             <p>Subtotal - ${{subTotal}}</p>
-            <button class="shop-btn">Checkout</button>
+                <button 
+                    @click="goToCart()"
+                    class="shop-btn">Checkout</button>
         </div>
     </div>
 </template>
@@ -50,6 +52,12 @@ export default class CartPreview extends Vue {
     }
     get subTotal() {
         return this.$store.getters.subTotal;
+    }
+    private goToCart() {
+        this.onPreviewLeave();
+        if (this.$route.name !== 'cart') {
+            this.$router.push('/cart');
+        }
     }
     private onPreviewEnter() {
         this.stayOpen = true;

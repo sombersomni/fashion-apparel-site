@@ -20,18 +20,21 @@
             <div 
                 style="justify-content: flex-end;"
                 class="menu-section">
-                <div 
-                    @mouseenter="onCartEnter()"
-                    @mouseleave="onCartLeave(cartOffDuration)"
-                    ref="cartIcon"
-                    class="cart-icon">
-                    <font-awesome-icon :icon="['far', 'shopping-bag']" />
+                <router-link exact to="/cart">
                     <div 
-                        class="shop-count"
-                        v-if="cartCount > 0">
-                        {{cartCount}}
+                        @click="onCartClick()"
+                        @mouseenter="onCartEnter()"
+                        @mouseleave="onCartLeave(cartOffDuration)"
+                        ref="cartIcon"
+                        class="cart-icon">
+                        <font-awesome-icon :icon="['far', 'shopping-bag']" />
+                        <div 
+                            class="shop-count"
+                            v-if="cartCount > 0">
+                            {{cartCount}}
+                        </div>
                     </div>
-                </div>
+                </router-link>
             </div>
         </nav>
     </div>
@@ -61,10 +64,18 @@ export default class Navigation extends Vue {
     }
     get cartCount() {
         if (this.$refs.cartIcon && this.$store.getters.cartCount > 0) {
-            this.onCartEnter();
-            this.onCartLeave(2500);
+            if (!this.$store.state.onAuto) {
+                this.onCartEnter();
+                this.onCartLeave(2500);
+            }
         }
         return this.$store.getters.cartCount;
+    }
+    public onCartClick() {
+        if (this.cartLeaveTimeout) {
+            window.clearTimeout(this.cartLeaveTimeout);
+        }
+        this.openCartPreview = false;
     }
     public onCartEnter() {
         if (this.cartLeaveTimeout) {
