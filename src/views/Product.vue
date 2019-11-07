@@ -109,6 +109,41 @@
                         style="margin: 0px 10px; cursor: pointer;"
                         :icon="[heartFull ? 'fas' : 'far', 'heart']"/>
                 </div>
+                <div 
+                    v-show="product.details && product.details.length > 0"
+                    class="product-details">
+                    <h4>Details</h4>
+                    <p>{{product.details}}</p>
+                    <h4>Fabrics</h4>
+                    <p>
+                        <span
+                            v-for="(fabric, i) in product.fabrics"
+                            :key="fabric"
+                            >{{fabric}} 
+                            <span v-show="i !== product.fabrics.length - 1"> | </span>
+                        </span>
+                    </p>
+                    <h4>Care Instructions</h4>
+                    <p>{{product['washer-details']}}</p>
+                    <div>
+                        <font-awesome-icon 
+                            class="care-icons"
+                            size="1x"
+                            :icon="['far', 'exclamation-triangle']"/>
+                        <font-awesome-icon 
+                            class="care-icons"
+                            size="1x"
+                            :icon="['far', 'washer']"/>
+                        <font-awesome-icon 
+                            class="care-icons"
+                            size="1x"
+                            :icon="['far', 'tint-slash']"/>
+                        <font-awesome-icon 
+                            class="care-icons"
+                            size="1x"
+                            :icon="['far', 'dryer']"/>    
+                    </div>
+                </div>
             </div>
         </div>
         <div class="info-module-container">
@@ -263,6 +298,10 @@ export default {
 </script>
 
 <style scoped>
+.care-icons {
+    margin: 5px;
+}
+
 .info-module-container {
     width: 100vw;
     display: flex;
@@ -362,6 +401,25 @@ export default {
 .product-interactive-item {
     flex-grow: 1;
 }
+
+.product-details {
+    width: 90%;
+    padding: 25px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: center;
+    background: #DDD;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.product-details > h4,h5,h6 {
+    margin: 2px 0px;
+}
+
 .mini-menu {
     padding: 10px;
     display: flex;

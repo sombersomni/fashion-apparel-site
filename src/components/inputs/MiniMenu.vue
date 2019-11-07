@@ -65,6 +65,9 @@
 }
 .product-select > p {
     text-transform: capitalize;
-    margin: 10px;
+    margin: 5px 10px;
+}
+.product-select > h5 {
+    margin: 5px 10px;
 }
 </style>
