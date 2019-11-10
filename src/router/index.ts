@@ -58,7 +58,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const siteCondition: boolean = to.name !== 'home'
-  && to.name !== 'women' && to.name !== 'men' && to.name !== 'cart' 
+  && to.name !== 'women' && to.name !== 'men' && to.name !== 'cart'
   && to.name !== 'cartpage' && to.name !== 'cartbuy'
   && to.name !== 'men-product' && to.name !== 'women-product';
   if (siteCondition) {

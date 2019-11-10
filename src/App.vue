@@ -8,23 +8,27 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Component, Vue } from 'vue-property-decorator';
 import Navigation from './components/Navigation.vue';
 import Footer from './components/Footer.vue';
 
-@Component({
+export default {
+  name: 'App',
   components: {
     Navigation,
     Footer,
   },
   watch: {
     $route(to, from) {
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
     },
   },
-})
-export default class App extends Vue {
+  methods: {
+    manageResize(e) {
+      this.$store.commit('setMobile', e.target.innerWidth);
+    },
+  },
   mounted() {
     const savedCartState = window.localStorage.getItem('cartState');
     if (savedCartState) {
@@ -33,14 +37,11 @@ export default class App extends Vue {
     }
     this.$store.commit('setMobile', window.innerWidth);
     window.addEventListener('resize', this.manageResize);
-  }
+  },
   destroyed() {
     window.removeEventListener('resize', this.manageResize);
-  }
-  private manageResize(e) {
-    this.$store.commit('setMobile', e.target.innerWidth);
-  }
-}
+  },
+};
 </script>
 
 <style>

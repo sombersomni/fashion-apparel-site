@@ -29,10 +29,11 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Component, Vue } from 'vue-property-decorator';
 
-@Component({
+export default {
+    name: 'CartPreview',
     props: {
         leftOffset: {
             type: Number,
@@ -43,31 +44,36 @@ import { Component, Vue } from 'vue-property-decorator';
             default: false,
         },
     },
-})
-export default class CartPreview extends Vue {
-    private stayOpen: boolean = false;
-
+    data() {
+        return {
+            stayOpen: false,
+        };
+    },
     mounted() {
         this.$refs.cartPreview.scrollTop = 0;
-    }
-    get subTotal() {
-        return this.$store.getters.subTotal;
-    }
-    private goToCart() {
-        this.onPreviewLeave();
-        if (this.$route.name !== 'cart') {
-            this.$router.push('/cart');
-        }
-    }
-    private onPreviewEnter() {
-        this.stayOpen = true;
-        this.$emit('onPreview', true);
-    }
-      private onPreviewLeave() {
-        this.stayOpen = false;
-        this.$emit('onPreview', false);
-    }
-}
+    },
+    computed: {
+        subTotal() {
+            return this.$store.getters.subTotal;
+        },
+    },
+    methods: {
+        goToCart() {
+            this.onPreviewLeave();
+            if (this.$route.name !== 'cart') {
+                this.$router.push('/cart');
+            }
+        },
+        onPreviewEnter() {
+            this.stayOpen = true;
+            this.$emit('onPreview', true);
+        },
+        onPreviewLeave() {
+            this.stayOpen = false;
+            this.$emit('onPreview', false);
+        },
+    },
+};
 </script>
 
 <style scoped>

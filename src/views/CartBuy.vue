@@ -57,7 +57,7 @@ export default {
                 {name: 'Marco Trinidad', site: 'https://www.instagram.com/marco.dng/'},
                 {name: 'Daria Shevtsova', site: 'https://www.dariashevtsova.com/'},
             ],
-        }
+        };
     },
     computed: {
         subTotal() {
@@ -68,7 +68,7 @@ export default {
             return parseFloat(total).toFixed(2);
         },
     },
-}
+};
 </script>
 
 <style scoped>

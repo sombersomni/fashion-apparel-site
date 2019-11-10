@@ -15,10 +15,11 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component({
+export default {
+    name: 'Selection',
     props: {
         label: {
             type: String,
@@ -43,41 +44,45 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
             type: String,
         },
     },
+    data() {
+        return {
+            toggleCheck: this.$props.label.toLowerCase() === 'all',
+            selectionState: {
+                margin: 0,
+                padding: 0,
+                position: 'absolute',
+                top: -1,
+                left: 0,
+                zIndex: 0,
+                color: '#333',
+            },
+        };
+    },
     watch: {
         $route(to, from) {
-            this.toggleCheck = this.label.toLowerCase() === 'all';
-            this.$emit('onSelectedFilter', { filterValue: this.label, action: this.toggleCheck ? 'add' : 'remove' });
-        }
+            this.toggleCheck = this.$props.label.toLowerCase() === 'all';
+            this.$emit('onSelectedFilter', {
+                filterValue: this.$props.label,
+                action: this.toggleCheck ? 'add' : 'remove' });
+        },
     },
-})
-export default class Selection extends Vue {
-    public toggleCheck: boolean = this.label.toLowerCase() === 'all';
-    private selectionState = {
-        margin: 0,
-        padding: 0,
-        position: 'absolute',
-        top: -1,
-        left: 0,
-        zIndex: 0,
-        color: '#333',
-    };
-
-    public onSelect(label: string) {
-        this.toggleCheck = !this.toggleCheck;
-        this.$emit('onSelectedFilter', { filterValue: label, action: this.toggleCheck ? 'add' : 'remove' });
-    }
-
-    public onCheck(label: string, reset: boolean, onlyAll: boolean) {
-        if (reset || onlyAll) {
-            this.toggleCheck = label.toLowerCase() === 'all';
-        } else {
-            if (label.toLowerCase() === 'all') {
-                this.toggleCheck = false;
+    methods: {
+        onSelect(label) {
+            this.toggleCheck = !this.toggleCheck;
+            this.$emit('onSelectedFilter', { filterValue: label, action: this.toggleCheck ? 'add' : 'remove' });
+        },
+        onCheck(label, reset, onlyAll) {
+            if (reset || onlyAll) {
+                this.toggleCheck = label.toLowerCase() === 'all';
+            } else {
+                if (label.toLowerCase() === 'all') {
+                    this.toggleCheck = false;
+                }
             }
-        }
-        return this.toggleCheck;
-    }
-}
+            return this.toggleCheck;
+        },
+    },
+};
 </script>
 
 <style scoped>

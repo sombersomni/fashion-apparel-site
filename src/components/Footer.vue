@@ -46,19 +46,24 @@
     </footer>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-@Component
-export default class Footer extends Vue {
-    private iconStyle: any = {
-        marginRight: '10px',
-        marginTop: '10px',
-    };
-    private onSubmitEmail(e: any) {
-        e.preventDefault();
-        this.$refs.inputRef.value = '';
-    }
-}
+<script>
+export default {
+    name: 'Footer',
+    data() {
+        return {
+            iconStyle: {
+                marginRight: '10px',
+                marginTop: '10px',
+            },
+        };
+    },
+    methods: {
+        onSubmitEmail(e) {
+            e.preventDefault();
+            this.$refs.inputRef.value = '';
+        },
+    },
+};
 </script>
 
 <style scoped>

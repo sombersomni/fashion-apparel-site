@@ -38,14 +38,19 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script>
 import SalesTag from './SalesTag.vue';
 import anime from 'animejs';
 
-@Component({
+export default {
+    name: 'ProductDisplay',
     components: {
         SalesTag,
+    },
+    data() {
+        return {
+            imgsEndpoint: '/imgs',
+        };
     },
     props: {
         index: {
@@ -91,11 +96,8 @@ import anime from 'animejs';
                         loop: 1,
                     });
             }
-        }
+        },
     },
-})
-export default class ProductDisplay extends Vue {
-    private imgsEndpoint: string = '/imgs';
     mounted() {
         anime({
             targets: this.$refs.productDisplay,
@@ -104,8 +106,8 @@ export default class ProductDisplay extends Vue {
             delay: this.$props.index * 200,
             loop: 1,
         });
-    }
-}
+    },
+};
 </script>
 
 <style scoped>

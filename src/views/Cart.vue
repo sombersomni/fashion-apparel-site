@@ -83,7 +83,7 @@ export default {
             this.$router.push('/');
         },
         proceedToCheckout() {
-            this.$router.push('/checkout')
+            this.$router.push('/checkout');
         },
     },
     computed: {

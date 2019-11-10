@@ -62,11 +62,9 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script>
 import CartItem from '../model/CartItem';
-
-@Component({
+export default {
     name: 'CartProduct',
     props: {
         cartItem: {
@@ -74,33 +72,37 @@ import CartItem from '../model/CartItem';
             required: true,
         },
     },
-})
-export default class CartProduct extends Vue {
-    private maxQuantity: number = 5;
-    private openConfirm: boolean = false;
-    mounted() {
+    data() {
+        return {
+            maxQuantity: 5,
+            openConfirm: false,
+        };
+    },
+     mounted() {
         this.$refs.selectRef.value = this.cartItem.quantity;
         this.$refs.selectRefMobile.value = this.cartItem.quantity;
-    }
-    private changeQuantity(e: any, id: string) {
-        const quantity = parseInt(e.target.value);
-        this.$store.commit({ type: 'changeItemQuantity', id, quantity });
-    }
-    private confirmRemoval() {
-        this.openConfirm = true;
-    }
-    private closeConfirm() {
-        this.openConfirm = false;
-    }
-    private removeItem(id: string) {
-        this.openConfirm = false;
-        this.$store.commit({ type: 'removeFromCart', id });
-    }
-    get colorName() {
-        const colorName: string =  this.$props.cartItem.color;
-        return colorName.includes('pattern') ? colorName.replace('/patterns/', '') : colorName;
-    }
-}
+    },
+    methods: {
+        changeQuantity(e, id) {
+            const quantity = parseInt(e.target.value, 10);
+            this.$store.commit({ type: 'changeItemQuantity', id, quantity });
+        },
+        confirmRemoval() {
+            this.openConfirm = true;
+        },
+        closeConfirm() {
+            this.openConfirm = false;
+        },
+        removeItem(id) {
+            this.openConfirm = false;
+            this.$store.commit({ type: 'removeFromCart', id });
+        },
+        colorName() {
+            const colorName =  this.$props.cartItem.color;
+            return colorName.includes('pattern') ? colorName.replace('/patterns/', '') : colorName;
+        },
+    },
+};
 </script>
 
 <style scoped>

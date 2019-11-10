@@ -64,10 +64,10 @@ export default {
   },
   watch: {
     $route(to, from) {
-      if (from.name === "home") {
+      if (from.name === 'home') {
         this.hitScrollMark = false;
       }
-    }
+    },
   },
   methods: {
     trackScroll(e) {

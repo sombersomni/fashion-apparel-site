@@ -216,7 +216,9 @@ export default {
     },
     computed: {
         getColorLabel() {
-            return this.selectedItem['color'].includes('pattern') ? this.selectedItem['color'].replace('/patterns/', '') : this.selectedItem['color'];
+            return this.selectedItem.color.includes('pattern') ?
+            this.selectedItem.color.replace('/patterns/', '') :
+            this.selectedItem.color;
         },
     },
     methods: {
@@ -233,7 +235,7 @@ export default {
                     this.selectedImage = this.product.imgs[0];
                     setTimeout(() => {
                         this.enterThumbnail = true;
-                    }, 200);      
+                    }, 200);
                 }
             } catch (err) {
                 console.log(err);
@@ -319,7 +321,7 @@ export default {
                     this.selectedImage = this.product.imgs[0];
                     setTimeout(() => {
                         this.enterThumbnail = true;
-                    }, 200);      
+                    }, 200);
                 }
             } else if (from.name === 'women-product' || from.name === 'men-product') {
                 this.enterThumbnail = false;

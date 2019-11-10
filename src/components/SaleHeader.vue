@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import { Component, Vue } from 'vue-property-decorator';
 import anime from 'animejs';
-@Component({
+export default {
+    name: 'SaleHeader',
     props: {
         img: {
             type: String,
@@ -42,6 +42,16 @@ import anime from 'animejs';
             animWidth: false,
         };
     },
+     mounted() {
+        this.splitMsg = this.saleMsg.split(' ');
+        // anime({
+        //     targets: this.$refs.saleMsg,
+        //     width: [10, 300],
+        //     delay: 200,
+        //     duration: 3000,
+        //     loop: 1,
+        // });
+    },
     watch: {
         $route(to, from) {
             if (to.name === 'men' || to.name === 'women') {
@@ -53,21 +63,10 @@ import anime from 'animejs';
                 //     loop: 1,
                 // });
             }
-        }
-    }
-})
-export default class SaleHeader extends Vue {
-    mounted() {
-        this.splitMsg = this.saleMsg.split(' ');
-        // anime({
-        //     targets: this.$refs.saleMsg,
-        //     width: [10, 300],
-        //     delay: 200,
-        //     duration: 3000,
-        //     loop: 1,
-        // });
-    }
-}
+        },
+    },
+};
+
 </script>
 
 <style scoped>

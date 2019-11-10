@@ -46,10 +46,10 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script>
 import CartPreview from '../components/CartPreview.vue';
-@Component({
+export default {
+    name: 'Navigation',
     components: {
         CartPreview,
     },
@@ -59,43 +59,49 @@ import CartPreview from '../components/CartPreview.vue';
             default: 2500,
         },
     },
-})
-export default class Navigation extends Vue {
-    public cartOffset: number = 0;
-    public openCartPreview: boolean = false;
-    public previewOn: boolean = false;
-    public cartLeaveTimeout: any = null;
+    data() {
+        return {
+            cartOffset: 0,
+            openCartPreview: false,
+            previewOn: false,
+            cartLeaveTimeout: null,
+        };
+    },
     mounted() {
         this.cartOffset = this.$refs.cartIcon.offsetLeft;
-    }
-    get cartCount() {
-        if (this.$refs.cartIcon && this.$store.getters.cartCount > 0) {
-            if (!this.$store.state.onAuto) {
-                this.onCartEnter();
-                this.onCartLeave(2500);
+    },
+    computed: {
+        cartCount() {
+            if (this.$refs.cartIcon && this.$store.getters.cartCount > 0) {
+                if (!this.$store.state.onAuto) {
+                    this.onCartEnter();
+                    this.onCartLeave(2500);
+                }
             }
-        }
-        return this.$store.getters.cartCount;
-    }
-    public onCartClick() {
-        if (this.cartLeaveTimeout) {
-            window.clearTimeout(this.cartLeaveTimeout);
-        }
-        this.openCartPreview = false;
-    }
-    public onCartEnter() {
-        if (this.cartLeaveTimeout) {
-            window.clearTimeout(this.cartLeaveTimeout);
-        }
-        this.cartOffset = this.$refs.cartIcon.offsetLeft;
-        this.openCartPreview = true;
-    }
-    public onCartLeave(duration: number) {
-        this.cartLeaveTimeout = window.setTimeout(() => {
+            return this.$store.getters.cartCount;
+        },
+    },
+    methods: {
+        onCartClick() {
+            if (this.cartLeaveTimeout) {
+                window.clearTimeout(this.cartLeaveTimeout);
+            }
             this.openCartPreview = false;
-        }, duration);
-    }
-}
+        },
+        onCartEnter() {
+            if (this.cartLeaveTimeout) {
+                window.clearTimeout(this.cartLeaveTimeout);
+            }
+            this.cartOffset = this.$refs.cartIcon.offsetLeft;
+            this.openCartPreview = true;
+        },
+        onCartLeave(duration) {
+            this.cartLeaveTimeout = window.setTimeout(() => {
+                this.openCartPreview = false;
+            }, duration);
+        },
+    },
+};
 </script>
 
 <style scoped>
