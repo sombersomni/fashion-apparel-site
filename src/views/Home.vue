@@ -11,9 +11,13 @@
         class='men-feature feature-small'>
          <router-link 
           to="/men">
-            <div class="btn-container">
-              <button class="shop-btn chunky-btn">Shop Men</button>
-            </div>
+            <transition name="side-open">
+              <div 
+                v-if="hitScrollMark"
+                class="btn-container">
+                <button class="shop-btn chunky-btn">Shop Men</button>
+              </div>
+            </transition>
           </router-link>
       </div>
       <div 
@@ -23,9 +27,13 @@
         class='women-feature feature-small'>
          <router-link 
           to="/women">
-            <div class="btn-container">
-             <button class="shop-btn chunky-btn">Shop Women</button>
-            </div>
+            <transition name="side-open">
+              <div 
+                v-if="hitScrollMark"
+                class="btn-container">
+                <button class="shop-btn chunky-btn">Shop Women</button>
+              </div>
+            </transition>
           </router-link>
       </div>
     </div>
@@ -42,14 +50,46 @@ export default {
   components: {
     FeatureHeader,
   },
+  data() {
+    return {
+      hitScrollMark: false,
+    };
+  },
+  mounted() {
+    this.trackScroll();
+    window.addEventListener('scroll', this.trackScroll);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.trackScroll);
+  },
+  watch: {
+    $route(to, from) {
+      if (from.name === "home") {
+        this.hitScrollMark = false;
+      }
+    }
+  },
+  methods: {
+    trackScroll(e) {
+      const height = this.$store.state.mobile ? 150 : 250;
+      if (window.scrollY > height) {
+        this.hitScrollMark = true;
+      }
+    },
+  },
 };
 
 </script>
 
 <style scoped>
 .btn-container {
-    padding: 10px;
-    background: white;
+  padding: 10px;
+  background: white;
+  overflow: hidden;
+}
+
+.btn-container > button {
+  min-width: 150px;
 }
 
 .home-container {
@@ -62,7 +102,7 @@ export default {
   align-items: center;
 }
 .women-feature {
-  background: url('../assets/imgs/women/forward-sports-bra-side.jpg') no-repeat;
+  background: url('../assets/imgs/feature/forward-sports-bra-side.jpg') no-repeat;
   background-position: center;
   background-size: cover;
 }
@@ -84,6 +124,18 @@ export default {
 
 .chunky-btn {
   padding: 20px 25px;
-  margin: 0;
+  margin: 0
+  ;
+}
+
+/* animations */
+.side-open-enter-active, .side-open-leave-active {
+    transition: 1s;
+}
+.side-open-enter, .side-open-leave-to {
+    width: 10px;
+}
+.side-open-enter-to, .side-open-leave {
+    width: 150px;
 }
 </style>

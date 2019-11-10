@@ -1,50 +1,56 @@
 <template>
-    <router-link exact :to="'/' + gender + '/' + id">
-        <div
-            class="product-display"
-            :style="{ 
-                width: ($store.state.mobile ? 140 : 280) + 'px',
-                margin: $store.state.mobile ? '0px 5px' : '0px 10px'}">
-            <SalesTag v-if="sale > 0" :sale="sale"/>
-            <div 
-                :style="{
+    <div ref="productDisplay" class="product-display-container">
+        <router-link exact :to="'/' + gender + '/' + id">
+            <div
+                class="product-display"
+                :style="{ 
                     width: ($store.state.mobile ? 140 : 280) + 'px',
-                    height: ($store.state.mobile ? 200 : 400) + 'px'}"
-                class="img-frame">
-                <img 
-                :src="imgsEndpoint + feature_img" 
-                :aria-label="name"/>
-            </div>
-            <div class="product-display-info">     
-                <h5>{{name}}</h5>
-                <div class="color-container">
-                    <h6>color set | </h6>
-                    <div
-                        v-for="color in colors"
-                        :key="color"
-                        :style="{background: color}"
-                        class="color-profile"
-                        >
-                    </div>
+                    margin: $store.state.mobile ? '0px 5px' : '0px 10px'}">
+                <SalesTag v-if="sale > 0" :sale="sale"/>
+                <div 
+                    :style="{
+                        width: ($store.state.mobile ? 140 : 280) + 'px',
+                        height: ($store.state.mobile ? 200 : 400) + 'px'}"
+                    class="img-frame">
+                    <img 
+                    :src="imgsEndpoint + feature_img" 
+                    :aria-label="name"/>
                 </div>
-                <p>
-                    <span :style="{ color: sale > 0 ? 'red' : '#333'}">${{price}}</span>
-                    <span v-if="sale > 0"> (reduced price)</span>
-                </p>
+                <div class="product-display-info">     
+                    <h5>{{name}}</h5>
+                    <div class="color-container">
+                        <h6>color set | </h6>
+                        <div
+                            v-for="color in colors"
+                            :key="color"
+                            :style="{background: color.includes('pattern') ? `url(/imgs${color}.jpg)` : color}"
+                            class="color-profile"
+                            >
+                        </div>
+                    </div>
+                    <p>
+                        <span :style="{ color: sale > 0 ? 'red' : '#333'}">${{price}}</span>
+                        <span v-if="sale > 0"> (reduced price)</span>
+                    </p>
+                </div>
             </div>
-        </div>
-    </router-link>
+        </router-link>
+    </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import SalesTag from './SalesTag.vue';
+import anime from 'animejs';
 
 @Component({
     components: {
         SalesTag,
     },
     props: {
+        index: {
+            type: Number,
+        },
         id: {
             type: String,
             required: true,
@@ -74,15 +80,41 @@ import SalesTag from './SalesTag.vue';
             default: 0,
         },
     },
+    watch: {
+        $route(to, from) {
+            if (to.name === 'men' || to.name === 'women') {
+                   anime({
+                        targets: this.$refs.productDisplay,
+                        opacity: 1,
+                        translateY: [-50, 0],
+                        delay: this.$props.index * 200,
+                        loop: 1,
+                    });
+            }
+        }
+    },
 })
 export default class ProductDisplay extends Vue {
     private imgsEndpoint: string = '/imgs';
+    mounted() {
+        anime({
+            targets: this.$refs.productDisplay,
+            opacity: 1,
+            translateY: [-25, 0],
+            delay: this.$props.index * 200,
+            loop: 1,
+        });
+    }
 }
 </script>
 
 <style scoped>
 img {
     width: 100%;
+}
+
+.product-display-container {
+    opacity: 0;
 }
 
 .img-frame {

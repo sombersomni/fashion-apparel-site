@@ -1,10 +1,9 @@
 <template>
     <div class="main-container">
-        <div class="header-container">
-            <img 
-                src="../assets/imgs/feature/blonde-cool-header.jpg" 
-                aria-label="summer boy"/>
-        </div>
+      <SaleHeader 
+        img="/imgs/feature/blonde-cool-header.jpg" 
+        label="summer boy"
+        saleMsg="Get free shipping if your purchase is more than $100" />
         <keep-alive>
             <Products page="men"/>
         </keep-alive>
@@ -13,23 +12,12 @@
 
 <script>
 import Products from '../components/Products.vue';
-
+import SaleHeader from '../components/SaleHeader.vue';
 export default {
     name: 'men',
     components: {
         Products,
+        SaleHeader,
     },
 };
 </script>
-
-<style scoped>
-.header-container {
-    width: 100vw;
-    height: 200px;
-    overflow: hidden;
-}
-img { 
-    width: 100vw;
-    min-width: 600px;
-}
-</style>

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import CartPage from '../views/CartPage.vue';
 
 Vue.use(VueRouter);
 
@@ -21,14 +22,21 @@ const routes = [
     component: () => import('../views/Men.vue'),
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/About.vue'),
-  },
-  {
     path: '/cart',
-    name: 'cart',
-    component: () => import('../views/Cart.vue'),
+    name: 'cartpage',
+    component: CartPage,
+    children: [
+      {
+        path: '/',
+        name: 'cart',
+        component: () => import('../views/Cart.vue'),
+      },
+      {
+        path: '/checkout',
+        name: 'cartbuy',
+        component: () => import('../views/CartBuy.vue'),
+      },
+    ],
   },
   {
     path: '/men/:id(\\d+)',
@@ -50,7 +58,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const siteCondition: boolean = to.name !== 'home'
-  && to.name !== 'women' && to.name !== 'men' && to.name !== 'cart'
+  && to.name !== 'women' && to.name !== 'men' && to.name !== 'cart' 
+  && to.name !== 'cartpage' && to.name !== 'cartbuy'
   && to.name !== 'men-product' && to.name !== 'women-product';
   if (siteCondition) {
      next('/');

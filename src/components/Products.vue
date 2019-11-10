@@ -40,8 +40,9 @@
         </div>
         <div class="products-container">
             <ProductDisplay 
-                    v-for="product in filteredProducts"
+                    v-for="(product, i) in filteredProducts"
                     :key="product.id"
+                    :index="i"
                     :id="product.id"
                     :name="product.name"
                     :gender="product.gender"

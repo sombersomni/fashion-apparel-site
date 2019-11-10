@@ -12,40 +12,47 @@
         <div class="product-top-container" v-show="product !== null">
             <div class="product-feature-container">
                 <div 
+                    ref="productPics"
                     class="product-pics-container"
                     :style="{
                         flexDirection: $store.state.currentWidth < 1000 ? 'row' : 'column',
                         marginTop: $store.state.currentWidth < 1000 ? '5px' : '0px',
                         marginRight: $store.state.currentWidth < 1000 ? '0px' : '10px',
+                        maxWidth: $store.state.currentWidth < 1000 ? '400px' : '120px',
+                        minWidth: $store.state.currentWidth < 1000 ? '300px' : '100px',
                         }">
                     <div
-                        v-for="img in product.imgs"
+                        v-for="(img, i) in product.thumbnails"
                         :key="img"
                         :style="{
                             marginBottom: $store.state.currentWidth < 1000 ? '0px' : '10px',
                             marginRight: $store.state.currentWidth < 1000 ? '10px' : '0px',
+                            opacity: enterThumbnail ? 1 : 0,
+                            transform: enterThumbnail ? 'translateX(0px)' : 'translateX($store.state.mobile ? 10px : 100px)',
                             }"
-                        @click="onImageSelect(img)"
+                        @click="onImageSelect(product.imgs[i])"
                         class="product-pic">
-                        <img :src="'/imgs' + img" />
+                            <img :src="'/imgs' + img" />
                     </div>
                 </div>
-                <div 
-                    @mousemove="zoomImage($event)"
-                    @mouseenter="zoomIn()"
-                    @mouseleave="zoomOut()"
-                    class="product-feature">
-                    <div class="feature-cover"></div>
-                    <img 
-                        :style="{
-                            width: allowZoom ? 'auto' : '100%',
-                            transform: `translate(${mainImgX+'px'}, ${mainImgY+'px'})`
-                            }"
-                        :src="'/imgs' + (selectedImage.length > 0 ? selectedImage : '')" 
-                        :aria-label="product ? product.name : 'none'"/>
-                </div>
+                    <div 
+                        @mousemove="zoomImage($event)"
+                        @mouseenter="zoomIn()"
+                        @mouseleave="zoomOut()"
+                        class="product-feature"
+                        ref="featureImg">
+                        <div class="feature-cover"></div>
+                        <img 
+                            :style="{
+                                width: allowZoom ? 'auto' : '100%',
+                                transform: `translate(${mainImgX+'px'}, ${mainImgY+'px'})`
+                                }"
+                            :src="'/imgs' + (selectedImage.length > 0 ? selectedImage : '')" 
+                            :aria-label="product ? product.name : 'none'"/>
+                    </div>
             </div>
             <div 
+                ref="productPurchase"
                 :style="{maxWidth: $store.state.currentWidth < 875 ? '80%' : '35vw'}"
                 class="product-purchase">
                 <h1 style="text-transform: capitalize;">{{product ? product.name : ''}}</h1>
@@ -55,7 +62,7 @@
                 <div class="product-select-container">
                     <MiniMenu 
                         label="color" 
-                        :selectionLabel="selectedItem['color']"
+                        :selectionLabel="getColorLabel"
                         :leftBorderOn="false"
                         @toggleMenu="handleMenu($event)" 
                         :otherOpen="'color' !== currentMenuType"/>
@@ -87,7 +94,8 @@
                                         display: 'block',
                                         width: '25px',
                                         height: '25px',
-                                        background: item}"></span>
+                                        border: item === 'white' ? '1px solid black' : 'none',
+                                        background: item.includes('pattern') ? `url('/imgs${item}.jpg')` : item}"></span>
                             </div>
                     </div>
                 </transition>
@@ -98,7 +106,6 @@
                 </div>
                 <div class="product-interactive">
                     <button 
-                    
                         style="color: white; background: black;"
                         class="shop-btn block-btn product-interactive-item"
                         @click="addToBag()">Add to Bag</button>
@@ -164,12 +171,12 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
 import MiniMenu from '../components/inputs/MiniMenu.vue';
 import ContactModal from '../components/modals/ContactModal.vue';
+import anime from 'animejs';
 export default {
     name: 'product',
     components: {
@@ -178,6 +185,7 @@ export default {
     },
     data() {
         return {
+            enterThumbnail: false,
             allowZoom: false,
             currentMenuType: '',
             heartFull: false,
@@ -199,6 +207,17 @@ export default {
     },
     mounted() {
         this.getProduct(this.$route.params.id);
+        anime({
+            targets: this.$refs.productPurchase,
+            translateX: [25, 0],
+            opacity: [0, 1],
+            loop: 1,
+        });
+    },
+    computed: {
+        getColorLabel() {
+            return this.selectedItem['color'].includes('pattern') ? this.selectedItem['color'].replace('/patterns/', '') : this.selectedItem['color'];
+        },
     },
     methods: {
         async getProduct(id) {
@@ -211,7 +230,10 @@ export default {
                 this.product = this.products.find((product) => product.id === id);
                 if (this.product) {
                     this.selectedItem = { color: this.product.colors[0], size: this.product.sizes[0] };
-                    this.selectedImage = this.product.feature_img;
+                    this.selectedImage = this.product.imgs[0];
+                    setTimeout(() => {
+                        this.enterThumbnail = true;
+                    }, 200);      
                 }
             } catch (err) {
                 console.log(err);
@@ -280,8 +302,13 @@ export default {
     },
     watch: {
         async $route(to, from) {
+            anime({
+                targets: this.$refs.productPurchase,
+                translateX: [25, 0],
+                opacity: [0, 1],
+                loop: 1,
+            });
             if (to.name === 'women-product' || to.name === 'men-product') {
-                window.scrollTo(0, 0);
                 this.currentMenuType = '';
                 this.openMenu = false;
                 if (this.products.length === 0) {
@@ -289,8 +316,13 @@ export default {
                 } else {
                     this.product = this.products.find((product) => product.id === to.params.id);
                     this.selectedItem = { color: this.product.colors[0], size: this.product.sizes[0] };
-                    this.selectedImage = this.product.feature_img;
+                    this.selectedImage = this.product.imgs[0];
+                    setTimeout(() => {
+                        this.enterThumbnail = true;
+                    }, 200);      
                 }
+            } else if (from.name === 'women-product' || from.name === 'men-product') {
+                this.enterThumbnail = false;
             }
         },
     },
@@ -315,7 +347,7 @@ export default {
 .info-module {
     min-width: 280px;
     width: 300px;
-    margin: 0px 25px;
+    margin: 0px 2%;
     padding: 10px;
 }
 
@@ -341,9 +373,8 @@ export default {
     flex-wrap: wrap-reverse;
     max-width: 50vw;
     min-width: 300px;
-    margin: 0px 25px;
+    margin: 0px 0px 0px 25px;
     min-height: 450px;
-
 }
 .product-select-container {
     display: flex;
@@ -362,6 +393,7 @@ export default {
     align-items: flex-start;
     justify-content: center;
     width: 100vw;
+    min-height: 80vh;
 }
 .product-purchase {
     min-width: 200px;
@@ -372,6 +404,7 @@ export default {
 .product-pics-container {
     display: flex;
     justify-content: flex-start;
+    height: auto;
 }
 .product-pic {
     width: 100px;
@@ -379,8 +412,10 @@ export default {
     overflow: hidden;
     opacity: 1;
     transition: opacity 1s;
+    transform: translateY(0);
+    transition: transform 1s, opacity 1s;
+    z-index: 0;
 }
-
 .product-pic:hover {
     opacity: 0.75;
     cursor: pointer;
@@ -480,5 +515,15 @@ h1 {
 .open-menu-enter-to, .open-menu-leave {
     opacity: 1;
     height: 45px;
+}
+/*-----------------------------------------*/
+.present-img-enter-active, .present-img-leave-active {
+    transition: 1s;
+}
+.present-img-enter, .present-img-leave-to {
+    height: 10px;
+}
+.present-img-enter-to, .present-img-leave {
+    height: 450px;
 }
 </style>

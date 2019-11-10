@@ -35,6 +35,7 @@
                         @click="goShopping()"
                         class="shop-btn checkout-btn">Continue Shopping</button>
                     <button 
+                        @click="proceedToCheckout()"
                         style="background: black; color: white;"
                         class="shop-btn checkout-btn">Continue Checkout</button>
                 </div>
@@ -80,6 +81,9 @@ export default {
     methods: {
         goShopping() {
             this.$router.push('/');
+        },
+        proceedToCheckout() {
+            this.$router.push('/checkout')
         },
     },
     computed: {

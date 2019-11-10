@@ -18,6 +18,11 @@ import Footer from './components/Footer.vue';
     Navigation,
     Footer,
   },
+  watch: {
+    $route(to, from) {
+      window.scrollTo(0,0);
+    },
+  },
 })
 export default class App extends Vue {
   mounted() {

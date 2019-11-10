@@ -43,6 +43,12 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
             type: String,
         },
     },
+    watch: {
+        $route(to, from) {
+            this.toggleCheck = this.label.toLowerCase() === 'all';
+            this.$emit('onSelectedFilter', { filterValue: this.label, action: this.toggleCheck ? 'add' : 'remove' });
+        }
+    },
 })
 export default class Selection extends Vue {
     public toggleCheck: boolean = this.label.toLowerCase() === 'all';

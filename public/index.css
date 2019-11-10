@@ -10,6 +10,15 @@ button {
 
 a {
     text-decoration: none;
+    color: rgb(42, 124, 161);
+}
+
+a:visited {
+    color: #333;
+}
+
+a:hover {
+    color: rgb(35, 215, 246);
 }
 
 .main-container {

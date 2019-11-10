@@ -5,10 +5,16 @@
             "name": "pilgrim blue dress",
             "gender": "women",
             "type": "dress",
-            "feature_img": "/women/pilgrim-blue-dress-front.jpg",
+            "feature_img": "/women/pilgrim-blue-dress-front-small.jpg",
             "imgs": [
+                "/women/pilgrim-blue-dress-front.jpg",
                 "/women/pilgrim-blue-dress-side.jpg",
                 "/women/pilgrim-blue-dress-profile.jpg"
+            ],
+            "thumbnails": [
+                "/women/pilgrim-blue-dress-front-thumbnail.jpg",
+                "/women/pilgrim-blue-dress-side-thumbnail.jpg",
+                "/women/pilgrim-blue-dress-profile-thumbnail.jpg"
             ],
             "colors": [
                 "powderblue"
@@ -31,10 +37,16 @@
             "name": "chun li tennis jacket",
             "gender": "women",
             "type": "jacket",
-            "feature_img": "/women/chun-li-tennis-jacket-front.jpg",
+            "feature_img": "/women/chun-li-tennis-jacket-front-small.jpg",
             "imgs": [
+                "/women/chun-li-tennis-jacket-front.jpg",
                 "/women/chun-li-tennis-jacket-side.jpg",
                 "/women/chun-li-tennis-jacket-profile.jpg"
+            ],
+            "thumbnails": [
+                "/women/chun-li-tennis-jacket-front-thumbnail.jpg",
+                "/women/chun-li-tennis-jacket-side-thumbnail.jpg",
+                "/women/chun-li-tennis-jacket-profile-thumbnail.jpg"
             ],
             "colors": [
                 "red",
@@ -62,10 +74,16 @@
             "name": "simple slip dress",
             "gender": "women",
             "type": "dress",
-            "feature_img": "/women/simple-slip-dress-front.jpg",
+            "feature_img": "/women/simple-slip-dress-front-small.jpg",
             "imgs": [
+                "/women/simple-slip-dress-front.jpg",
                 "/women/simple-slip-dress-side.jpg",
                 "/women/simple-slip-dress-profile.jpg"
+            ],
+            "thumbnails": [
+                "/women/simple-slip-dress-front-thumbnail.jpg",
+                "/women/simple-slip-dress-side-thumbnail.jpg",
+                "/women/simple-slip-dress-profile-thumbnail.jpg"
             ],
             "colors": [
                 "white",
@@ -90,34 +108,111 @@
             "limited": false
         },
         {
-            "id": "2854433",
-            "name": "test slip dress",
+            "id": "2854363",
+            "name": "mobius stripe jumpsuit",
             "gender": "women",
-            "type": "dress",
-            "feature_img": "/women/simple-slip-dress-front.jpg",
+            "type": "combo",
+            "feature_img": "/women/stripe-jump-suit-side-small.jpg",
             "imgs": [
-                "/women/simple-slip-dress-side.jpg",
-                "/women/simple-slip-dress-profile.jpg"
+                "/women/stripe-jump-suit-side.jpg",
+                "/women/stripe-jump-suit-front.jpg",
+                "/women/stripe-jump-suit-profile.jpg"
+            ],
+            "thumbnails": [
+                "/women/stripe-jump-suit-side-thumbnail.jpg",
+                "/women/stripe-jump-suit-front-thumbnail.jpg",
+                "/women/stripe-jump-suit-profile-thumbnail.jpg"
             ],
             "colors": [
-                "white",
+                "teal",
+                "green",
                 "red"
             ],
             "sizes": [
-                "xs",
                 "m",
-                "l",
-                "xl"
+                "xl",
+                "2xl"
             ],
-            "details": "Crossback Slip Dress featuring a lettuce edge in our Mix Modal, a sexy, silky, soft and luxurious fabric. Pairs great with the rest of our Mix Modal collection.",
-            "foward": "Mix Modal combines ultra-soft, silky fiber with unique durability. Derived from beech trees, this anti-pilling fabric is shrink-resistant with a cotton-like feel. Modal’s luxe draping effect is ideal for intimates, loungewear, and day-to-night silhouettes.",
+            "details": "Our new Stripe Jump Suit from our Mobius collection is a love letter to the simplicity and beauty of the mobius stripe. We take pride in our minimalism so you stand out but dont have to flaunt your style",
+            "foward": "Mix Modal combines ultra-soft, silky fiber with unique durability. Derived from beech trees, this anti-pilling fabric is shrink-resistant with a cotton-like feel. Made to feel comfortable for workouts or just relaxing with friends!",
             "washer-details": "Machine wash cold or dry clean. Do not bleach. Tumble dry low. Cool iron.",
+            "fabrics": [
+                "Modal",
+                "Spandex",
+                "Cotton"
+            ],
+            "price": 160,
+            "limited": true
+        },
+        {
+            "id": "2854309",
+            "name": "the truest swimsuit",
+            "gender": "women",
+            "type": "combo",
+            "feature_img": "/women/swimsuit-jacket-front-small.jpg",
+            "imgs": [
+                "/women/swimsuit-jacket-front.jpg",
+                "/women/swimsuit-jacket-profile.jpg"
+            ],
+            "thumbnails": [
+                "/women/swimsuit-jacket-front-thumbnail.jpg",
+                "/women/swimsuit-jacket-profile-thumbnail.jpg"
+            ],
+            "colors": [
+                "black",
+                "blue",
+                "orange"
+            ],
+            "sizes": [
+                "xs",
+                "s",
+                "m",
+                "xl",
+                "2xl"
+            ],
+            "details": "The Cotton Spandex Halter Bodysuit features a low cut V-neck and open back.",
+            "foward": "This iconic American Apparel fabric is a true staple. Cotton Spandex is a sleek, stretchy fabric with a studio-wear sensibility.",
+            "washer-details": "Machine wash cold with bleach-free detergent. Do not bleach. Line dry. Do not iron. Do not dry clean.",
             "fabrics": [
                 "Spandex",
                 "Cotton"
             ],
-            "price": 60,
-            "limited": false
+            "price": 50,
+            "limited": false,
+            "sale" : 10
+        },
+        {
+            "id": "30297881",
+            "name": "blana short top",
+            "gender": "women",
+            "type": "top",
+            "feature_img": "/women/blana-short-top-front-small.jpg",
+            "imgs": [
+                "/women/blana-short-top-front.jpg",
+                "/women/blana-short-top-profile.jpg",
+                "/women/blana-short-top-profile2.jpg"
+            ],
+            "thumbnails": [
+                "/women/blana-short-top-front-thumbnail.jpg",
+                "/women/blana-short-top-profile-thumbnail.jpg",
+                "/women/blana-short-top-profile2-thumbnail.jpg"
+            ],
+            "colors": [
+                "tan",
+                "white"
+            ],
+            "sizes": [
+                "m",
+                "l"
+            ],
+            "details": "The vintage pilgrim dress gives this conservative look a reboot with a simpler design.",
+            "forward": "Our super soft and elegant dress works well for formal ocassions",
+            "washer-details": "Machine wash cold or dry clean. Do not bleach. Tumble dry low. Cool iron.",
+            "fabrics": [
+                "Cotton"
+            ],
+            "price": 40,
+            "limited": true
         }
     ],
     "men": [
@@ -126,10 +221,16 @@
             "name": "detective trench jacket",
             "gender": "men",
             "type": "jacket",
-            "feature_img": "/men/detective-jacket-front.jpg",
+            "feature_img": "/men/detective-jacket-front-small.jpg",
             "imgs": [
+                "/men/detective-jacket-front.jpg",
                 "/men/detective-jacket-front2.jpg",
                 "/men/detective-jacket-side.jpg"
+            ],
+            "thumbnails": [
+                "/men/detective-jacket-front-thumbnail.jpg",
+                "/men/detective-jacket-front2-thumbnail.jpg",
+                "/men/detective-jacket-side-thumbnail.jpg"
             ],
             "colors": [
                 "tan"
@@ -153,11 +254,18 @@
             "name": "orane patchwork coat",
             "gender": "men",
             "type": "jacket",
-            "feature_img": "/men/orange-patchwork-coat-front.jpg",
+            "feature_img": "/men/orange-patchwork-coat-front-small.jpg",
             "imgs": [
+                "/men/orange-patchwork-coat-front.jpg",
                 "/men/orange-patchwork-coat-front2.jpg",
                 "/men/orange-patchwork-coat-side.jpg",
                 "/men/orange-patchwork-coat-profile.jpg"
+            ],
+            "thumbnails": [
+                "/men/orange-patchwork-coat-front-thumbnail.jpg",
+                "/men/orange-patchwork-coat-front2-thumbnail.jpg",
+                "/men/orange-patchwork-coat-side-thumbnail.jpg",
+                "/men/orange-patchwork-coat-profile-thumbnail.jpg"
             ],
             "colors": [
                 "/patterns/orange-patchwork"
@@ -171,7 +279,73 @@
             "fabrics": [
                 "Wool"
             ],
+            "washer-details": "Machine wash cold or dry clean. Do not bleach. Tumble dry low. Cool iron.",
             "price": 92,
+            "limited": true
+        },
+        {
+            "id": "3197919",
+            "name": "seriously tee",
+            "gender": "men",
+            "type": "shirt",
+            "feature_img": "/men/seriously-tee-front-small.jpg",
+            "imgs": [
+                "/men/seriously-tee-front.jpg",
+                "/men/seriously-tee-back.jpg",
+                "/men/seriously-tee-profile.jpg"
+            ],
+            "thumbnails": [
+                "/men/seriously-tee-front-thumbnail.jpg",
+                "/men/seriously-tee-back-thumbnail.jpg",
+                "/men/seriously-tee-profile-thumbnail.jpg"
+            ],
+            "colors": [
+                "white",            
+                "blue"
+            ],
+            "sizes": [
+                "xs",
+                "s",
+                "l",
+                "xl",
+                "2xl"
+            ],
+            "details": "Classic pocket tshirt in our fine jersey, a super soft everyday fabric.",
+            "fabrics": [
+                "Cotton"
+            ],
+            "washer-details": "Machine wash cold or dry clean. Do not bleach. Tumble dry low. Cool iron.",
+            "price": 25,
+            "sale": 40,
+            "limited": false
+        },
+        {
+            "id": "3197923",
+            "name": "mobius primary stripe crewneck",
+            "gender": "men",
+            "type": "shirt",
+            "feature_img": "/men/primary-stripes-front-small.jpg",
+            "imgs": ["/men/primary-stripes-front.jpg"],
+            "thumbnails": [
+                "/men/primary-stripes-front-thumbnail.jpg"
+            ],
+            "colors": [
+                "/patterns/primary-stripe",
+                "black",
+                "red",
+                "white"
+            ],
+            "sizes": [
+                "xs",
+                "s",
+                "l"
+            ],
+            "details": "Year round, essential crewneck sweater featuring the perfect weight, a slight dropped shoulder and a mid length.",
+            "fabrics": [
+                "Cotton"
+            ],
+            "washer-details": "Hand wash or dry clean. Do not bleach. Lay flat to dry. Cool iron.",
+            "price": 50,
             "limited": true
         }
     ]
