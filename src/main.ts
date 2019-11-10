@@ -15,13 +15,15 @@ import {
   faExclamationTriangle,
   faWasher,
   faTintSlash,
-  faDryer } from '@fortawesome/pro-regular-svg-icons';
+  faDryer,
+  faFeather } from '@fortawesome/pro-regular-svg-icons';
 import { faPlusCircle, faSlidersH, faArrowRight } from '@fortawesome/pro-light-svg-icons';
 import { faTwitter, faInstagram, faVuejs, faCcAmex, faCcDiscover, faCcMastercard, faCcVisa, faCcPaypal } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import store from './store';
 
 library.add(
+  faFeather,
   faCcAmex,
   faCcDiscover,
   faCcMastercard,

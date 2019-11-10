@@ -18,13 +18,14 @@
             </div>
             <div class="demo-desc">
                 <h1>Thank your for visiting</h1>
-                <p>This site is a demo to showcase my programming skills in
-                    creating an online store for potential clients. 
-                    <br />
+                <div class="vue-desc">
                     <font-awesome-icon 
-                    size="1x"
+                    style="color: green; display: block;"
+                    size="4x"
                     :icon="['fab', 'vuejs']" />
-                    ue framework used to create this single page exprience.
+                    <h5>The Vue framework used to create this single page exprience.</h5>
+                </div>
+                <p>This site is a demo to showcase my programming skills in creating an online store for potential clients. 
                 </p>
                 <h4 style="text-align: center;">Photography for the product showcase are credited to : </h4>
                 <div
@@ -79,12 +80,15 @@ export default {
 }
 .cart-buy-container {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .demo-desc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 60vw;
     padding: 25px;
     background: #AAA;
@@ -94,6 +98,14 @@ export default {
 .demo-desc > p {
     text-align: left;
     text-justify: newspaper;
+}
+
+a { 
+    color: white;
+}
+
+a:hover {
+    color: rgb(35, 215, 246);
 }
 
 .purchase-summary {
@@ -111,5 +123,21 @@ export default {
 }
 .purchase-summary > div > p:nth-child(2) {
     float: right;
+}
+
+.vue-desc {
+    width: 150px;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #333;
+}
+
+.vue-desc > h5,h6 {
+    margin: 0;
 }
 </style>

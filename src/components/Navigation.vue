@@ -12,14 +12,20 @@
                 @onPreview="previewOn = $event"/>
             <div 
                 style="justify-content: flex-start;"
-                class="menu-section">
-                <router-link exact to="/"><h3>Apparel</h3></router-link>
+                class="menu-section menu-left">
+                <router-link exact to="/">
+                    <h3>
+                        <font-awesome-icon :icon="['far', 'feather']" />
+                        HiChi
+                        <span style="font-size: 0.8em;">Apparel</span>
+                    </h3>
+                </router-link>
                 <div class="menu-item"><router-link exact to="/men">Men</router-link></div>
                 <div class="menu-item"><router-link exact to="/women">Women</router-link></div>
             </div>
             <div 
                 style="justify-content: flex-end;"
-                class="menu-section">
+                class="menu-section menu-right">
                 <router-link exact to="/cart">
                     <div 
                         @click="onCartClick()"
@@ -109,20 +115,28 @@ export default class Navigation extends Vue {
     .menu-section {
         display: flex;
         align-items: center; 
-        flex-grow: 1;
         margin: 0px 25px;
     }
+
+    .menu-left {
+        flex-grow: 2;
+    }
+
+    .menu-right {
+       flex-grow: 1; 
+    }
+
     nav h3 {
-        margin: 0px 10px;
+        margin: 0px 10px 0px 0px;
         font-style: italic;
     }
 
-    .menu-item {
+    nav .menu-item {
         font-weight: bold;
         margin-right: 10px;
     }
 
-    .cart-icon {
+    nav .cart-icon {
         position: relative;
         display: flex;
         flex-direction: row;
@@ -133,12 +147,12 @@ export default class Navigation extends Vue {
         transition: opacity 1s;
     }
 
-    .cart-icon:hover {
+    nav .cart-icon:hover {
         opacity: 0.6;
         cursor: pointer;
     }
 
-    .shop-count {
+    nav .shop-count {
         text-align: center;
         margin: 0px 5px;
         color: #333;

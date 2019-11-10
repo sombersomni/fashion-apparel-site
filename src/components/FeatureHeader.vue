@@ -109,7 +109,7 @@ img {
   width: 0px;
   z-index: 10;
   top: 50%;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 #feature-title > div {

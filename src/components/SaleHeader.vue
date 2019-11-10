@@ -2,11 +2,11 @@
   <div class="header-container">
     <div 
         class="sale-msg" 
-        :style="{width: animWidth ? '300px' : '10px'}"
+        ref="saleMsg"
         v-if="splitMsg.length > 3">
         <h2
          :style="{ 
-             width: '200px'}">
+             width: '225px'}">
          {{splitMsg.slice(0,3).join(' ')}}</h2>
         <h4
         :style="{ 
@@ -21,6 +21,7 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator';
+import anime from 'animejs';
 @Component({
     props: {
         img: {
@@ -43,12 +44,14 @@ import { Component, Vue } from 'vue-property-decorator';
     },
     watch: {
         $route(to, from) {
-            if (from.name === 'men' || from.name === 'women') {
-                this.animWidth = false;
-            } else  if (to.name === 'men' || to.name === 'women') {
-                setTimeout(() => {
-                    this.animWidth = true;
-                }, 200);
+            if (to.name === 'men' || to.name === 'women') {
+                //  anime({
+                //     targets: this.$refs.saleMsg,
+                //     width: [10, 300],
+                //     delay: 200,
+                //     duration: 1500,
+                //     loop: 1,
+                // });
             }
         }
     }
@@ -56,9 +59,13 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class SaleHeader extends Vue {
     mounted() {
         this.splitMsg = this.saleMsg.split(' ');
-        setTimeout(() => {
-            this.animWidth = true;
-        }, 200);
+        // anime({
+        //     targets: this.$refs.saleMsg,
+        //     width: [10, 300],
+        //     delay: 200,
+        //     duration: 3000,
+        //     loop: 1,
+        // });
     }
 }
 </script>
@@ -75,12 +82,12 @@ export default class SaleHeader extends Vue {
     align-items: flex-start;
     justify-content: center;
     position: absolute;
-    left: 50px;
+    left: 25px;
     top: 75px;
     z-index: 40px;
-    transition: width 1s;
     overflow: hidden;
 }
+
 .sale-msg > h1,h2,h3,h4,h5,h6 {
     background: #333;
     color: white;
