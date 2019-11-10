@@ -82,6 +82,12 @@ export default {
         this.$refs.selectRef.value = this.cartItem.quantity;
         this.$refs.selectRefMobile.value = this.cartItem.quantity;
     },
+    computed: {
+        colorName() {
+            const colorName =  this.$props.cartItem.color;
+            return colorName.includes('pattern') ? colorName.replace('/patterns/', '') : colorName;
+        },
+    },
     methods: {
         changeQuantity(e, id) {
             const quantity = parseInt(e.target.value, 10);
@@ -96,10 +102,6 @@ export default {
         removeItem(id) {
             this.openConfirm = false;
             this.$store.commit({ type: 'removeFromCart', id });
-        },
-        colorName() {
-            const colorName =  this.$props.cartItem.color;
-            return colorName.includes('pattern') ? colorName.replace('/patterns/', '') : colorName;
         },
     },
 };
