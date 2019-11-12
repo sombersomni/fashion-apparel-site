@@ -92,8 +92,12 @@ export default {
             if (this.cartLeaveTimeout) {
                 window.clearTimeout(this.cartLeaveTimeout);
             }
-            this.cartOffset = this.$refs.cartIcon.offsetLeft;
-            this.openCartPreview = true;
+            if (this.$store.state.cart.length > 0) {
+                this.cartOffset = this.$refs.cartIcon.offsetLeft;
+                this.openCartPreview = true;
+            } else {
+                this.openCartPreview = false;
+            }
         },
         onCartLeave(duration) {
             this.cartLeaveTimeout = window.setTimeout(() => {

@@ -14,10 +14,14 @@
                     <h4>Price <span v-show="$store.state.mobile">/ Quantity</span></h4>
                     <h4 v-show="!$store.state.mobile">Quantity</h4>
                 </div>
-                <CartProduct 
-                    v-for="cartItem in $store.state.cart"
-                    :key="cartItem.id"
-                    :cartItem="cartItem"/>
+                <div 
+                    v-if="$store.state.cart.length > 0">
+                    <CartProduct 
+                        v-for="cartItem in $store.state.cart"
+                        :key="cartItem.id"
+                        :cartItem="cartItem"/>
+                </div>
+                <p v-else> Your cart is currently empty! </p>
                 <div class="cart-items-footer">
                     <div>
                         <p>Subtotal</p>

@@ -19,7 +19,7 @@ export default new Vuex.Store({
     subTotal: (state: any) => {
         const totalPrice = state.cart.reduce(
           (accum: number, currentVal: CartItem) => accum + currentVal.price * currentVal.quantity, 0);
-        const shipping = totalPrice > 100 ? 0 : 10;
+        const shipping = totalPrice >= 100 ? 0 : 10;
         state.shipping = shipping;
         const priceAfterTax = totalPrice + (totalPrice * .0625);
         return priceAfterTax.toFixed(2);
