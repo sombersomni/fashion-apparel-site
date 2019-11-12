@@ -15,18 +15,18 @@
                     ref="productPics"
                     class="product-pics-container"
                     :style="{
-                        flexDirection: $store.state.currentWidth < 1000 ? 'row' : 'column',
-                        marginTop: $store.state.currentWidth < 1000 ? '5px' : '0px',
-                        marginRight: $store.state.currentWidth < 1000 ? '0px' : '10px',
-                        maxWidth: $store.state.currentWidth < 1000 ? '400px' : '120px',
-                        minWidth: $store.state.currentWidth < 1000 ? '300px' : '100px',
+                        flexDirection: $store.state.currentWidth < 1015 ? 'row' : 'column',
+                        marginTop: $store.state.currentWidth < 1015 ? '5px' : '0px',
+                        marginRight: $store.state.currentWidth < 1015 ? '0px' : '10px',
+                        maxWidth: $store.state.currentWidth < 1015 ? '400px' : '120px',
+                        minWidth: $store.state.currentWidth < 1015 ? '300px' : '100px',
                         }">
                     <div
                         v-for="(img, i) in product.thumbnails"
                         :key="img"
                         :style="{
-                            marginBottom: $store.state.currentWidth < 1000 ? '0px' : '10px',
-                            marginRight: $store.state.currentWidth < 1000 ? '10px' : '0px',
+                            marginBottom: $store.state.currentWidth < 1015 ? '0px' : '10px',
+                            marginRight: $store.state.currentWidth < 1015 ? '10px' : '0px',
                             opacity: enterThumbnail ? 1 : 0,
                             transform: enterThumbnail ? 'translateX(0px)' : 'translateX($store.state.mobile ? 10px : 100px)',
                             }"
@@ -43,12 +43,16 @@
                         ref="featureImg">
                         <div class="feature-cover"></div>
                         <img 
+                            v-if="selectedImage && selectedImage.length > 0"
                             :style="{
                                 width: allowZoom ? 'auto' : '100%',
                                 transform: `translate(${mainImgX+'px'}, ${mainImgY+'px'})`
                                 }"
-                            :src="'/imgs' + (selectedImage.length > 0 ? selectedImage : '')" 
+                            :src="'/imgs' + selectedImage" 
                             :aria-label="product ? product.name : 'none'"/>
+                        <div
+                            v-else 
+                            class="feature-placeholder"></div>
                     </div>
             </div>
             <div 
@@ -206,6 +210,8 @@ export default {
         };
     },
     mounted() {
+        this.heartFull = false;
+        this.selectedImage = '';
         this.getProduct(this.$route.params.id);
         anime({
             targets: this.$refs.productPurchase,
@@ -325,6 +331,8 @@ export default {
                 }
             } else if (from.name === 'women-product' || from.name === 'men-product') {
                 this.enterThumbnail = false;
+                this.selectedImage = '';
+                this.heartFull = false;
             }
         },
     },
@@ -357,6 +365,12 @@ export default {
     padding: 0px 20px;
 }
 
+.feature-placeholder {
+    width: 400px;
+    height: 600px;
+    background: #DDD;
+}
+
 .zoom-mouse {
     position: absolute;
     z-index: 90;
@@ -382,7 +396,6 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    width: 100%;
     cursor: pointer;
     background: white;
     z-index: 2;
