@@ -72,9 +72,9 @@ a:hover {
 .modal {
     position: fixed;
     max-width: 600px;
-    min-width: 300px;
+    min-width: 200px;
     background: white;
-    padding: 50px;
+    padding: 25px;
     text-align: left;
     text-justify: newspaper;
     z-index: 90;

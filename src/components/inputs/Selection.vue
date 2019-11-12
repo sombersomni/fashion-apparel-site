@@ -1,9 +1,9 @@
 <template>
-    <div class="selection"
-    >
+    <div 
+        class="selection"
+        @click="onSelect(label)">
         <div 
-            class="check-square" 
-            @click="onSelect(label)">
+            class="check-square">
             <font-awesome-icon 
                 v-if="onCheck(label, reset, onlyAll)"
                 :icon="['far', 'check']"
@@ -98,7 +98,15 @@ p {
     align-items: center;
     font-style: italic;
     font-size: .8em;
-    width: 125px;
+    max-width: 150px;
+    margin: 2px;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.selection:hover {
+    opacity: 0.7;
 }
 
 .check-square {
@@ -109,7 +117,5 @@ p {
     width: 10px;
     height: 10px;
 }
-.check-square:hover {
-    cursor: pointer;
-}
+
 </style>

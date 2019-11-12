@@ -10,6 +10,7 @@
         </transition>
         <transition name="modal-show">
             <div 
+                style="width: 80%;"
                 v-show="open"
                 class="modal">
                 <font-awesome-icon 

@@ -33,11 +33,11 @@
     </section>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+<script>
 import Selection from './Selection.vue';
 
-@Component({
+export default {
+    name: 'SelectionList',
   components: {
     Selection,
   },
@@ -51,60 +51,58 @@ import Selection from './Selection.vue';
           required: true,
       },
   },
-})
-export default class SelectionList extends Vue {
-
-  public sortStyle: any = {
-      marginTop: '5px',
-      padding: '5px',
-      cursor: 'pointer',
-      background: 'transparent',
-      width: '100px',
-  };
-  public resetFilterList: boolean = true;
-  public numOfSelected: number = 0;
-
-  private limit: number = 5;
-  private optionLength: number = 0;
-  private showMore: boolean = false;
-  private sortOn: boolean = true;
-
-  public getCriteria(
-    name: string,
-    crit: any,
-  ): Array<{ label: string; count?: number }> {
-    const newCriteria = [{ label: 'All' }];
-    for (const label in crit) {
-      if (crit.hasOwnProperty(label)) {
-        const count: number = crit[label];
-        const newCrit: { label: string; count?: number } = { label, count };
-        newCriteria.push(newCrit);
-      }
-    }
-    this.optionLength = newCriteria.length;
-    return newCriteria;
-  }
-
-  public toggleShowMore() {
+  data() {
+      return {
+          sortStyle : {
+                marginTop: '5px',
+                padding: '5px',
+                cursor: 'pointer',
+                background: 'transparent',
+                width: '100px',
+            },
+            resetFilterList: true,
+            numOfSelected: 0,
+            limit: 5,
+            optionLength: 0,
+            showMore: false,
+            sortOn: true,
+      };
+  },
+  mounted() {
+      this.sortOn = this.$props.filterLabel.toLowerCase() === 'type';
+  },
+  methods: {
+      getCriteria(
+        name,
+        crit,
+    ) {
+        const newCriteria = [{ label: 'All' }];
+        for (const label in crit) {
+            if (crit.hasOwnProperty(label)) {
+                const count = crit[label];
+                const newCrit = { label, count };
+                newCriteria.push(newCrit);
+            }
+        }
+        this.optionLength = newCriteria.length;
+        return newCriteria;
+    },
+    toggleShowMore() {
       this.showMore = !this.showMore;
-  }
-
-  public toggleSort() {
+    },
+    toggleSort() {
       this.sortOn = !this.sortOn;
-  }
-
-  public closeFilter(e: any) {
+    },
+    closeFilter(e) {
       e.stopPropagation();
-      const isFilterLabel: boolean = (e.target.nodeName === 'DIV' && e.target.className === 'filter-label');
-      const isFilter: boolean = (e.target.nodeName === 'DIV' && e.target.className === 'filter');
-      const isHeader: boolean = (e.target.nodeName === 'H4' || e.target.nodeName === 'H1');
-
+      const isFilterLabel = (e.target.nodeName === 'DIV' && e.target.className === 'filter-label');
+      const isFilter = (e.target.nodeName === 'DIV' && e.target.className === 'filter');
+      const isHeader = (e.target.nodeName === 'H4' || e.target.nodeName === 'H1');
       if (isFilterLabel || isFilter || isHeader) {
           this.$emit('onCloseFilter', false);
       }
-  }
-
-  public updateFilter(data: { filterValue: string, action: string }, filterLabel: string) {
+    },
+     updateFilter(data, filterLabel) {
       const { filterValue, action } = data;
       if (filterValue.toLowerCase() === 'all') {
           if (action === 'add') {
@@ -120,8 +118,23 @@ export default class SelectionList extends Vue {
           this.resetFilterList = this.numOfSelected === 0;
       }
       this.$emit('onUpdateFilter', { ...data, filterType: filterLabel, refresh: this.resetFilterList});
+    }
+  },
+  watch: {
+      $route(to, from) {
+          if (to.name === 'men' || to.name === 'women') {
+              this.sortOn = this.$props.filterLabel.toLowerCase() === 'type';
+          }
+      }
   }
-}
+};
+
+
+  
+
+
+
+
 </script>
 
 <style scoped>
@@ -151,7 +164,7 @@ h4 {
     border-bottom: 2px solid #333;
     width: 100%;
     height: 50px;
-    padding-top: 5px;
+    margin-top: 5px;
     text-align: center;
 }
 .filter-container {

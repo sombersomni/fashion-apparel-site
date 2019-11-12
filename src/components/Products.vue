@@ -17,14 +17,16 @@
             <p>filter</p>
           </div>
           <div class="filter-display-mobile">
-            <h1>Filter</h1>
-            <SelectionList 
-              v-for="agg in aggregateData()"
-              :key="agg[0]"
-              :filterLabel="agg[0]"
-              :filterValues="agg[1]"
-              @onUpdateFilter="filterProducts($event)"
-              @onCloseFilter="openFilter = $event"/>
+            <div>
+              <h1 @click="openFilter = !openFilter">Filter</h1>
+              <SelectionList 
+                v-for="agg in aggregateData()"
+                :key="agg[0]"
+                :filterLabel="agg[0]"
+                :filterValues="agg[1]"
+                @onUpdateFilter="filterProducts($event)"
+                @onCloseFilter="openFilter = $event"/>
+            </div>
           </div>
         </div>
         <div 
@@ -185,11 +187,17 @@ export default {
   height: 70vh;
 }
 
+.filter-display-mobile {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
 .filter-display-mobile-container {
   width: 210px;
   z-index: 99;
   background: white;
-  transition: left 1s;
+  transition: left 0.5s;
 }
 
 .filter-tab {

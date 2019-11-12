@@ -19,14 +19,22 @@
             <h4>Follow Us</h4>
             <div class="underline"></div>
             <div>
-                <font-awesome-icon 
-                    :style="iconStyle"
-                    size="2x"
-                    :icon="['fab', 'twitter']" />
-                <font-awesome-icon 
-                    :style="iconStyle"
-                    size="2x"
-                    :icon="['fab', 'instagram']" />
+                <a 
+                    target="_blank"
+                    href="https://twitter.com/kartunehustla">
+                    <font-awesome-icon 
+                        :style="iconStyle"
+                        size="2x"
+                        :icon="['fab', 'twitter']" />
+                </a>
+                 <a 
+                    target="_blank"
+                    href="https://www.instagram.com/sombersomniart/">
+                    <font-awesome-icon 
+                        :style="iconStyle"
+                        size="2x"
+                        :icon="['fab', 'instagram']" />
+                </a>
             </div>
         </section>
         <div 
@@ -97,6 +105,15 @@ export default {
         margin: 0;
     }
 
+    a {
+        color: white;
+        transition: color 0.5s;
+    }
+
+    a:hover {
+        color: aquamarine;
+    }
+    
     input[type='text'] {
         height: 20px;
         border: 2px solid white;

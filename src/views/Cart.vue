@@ -26,7 +26,7 @@
                     </div>
                     <div>
                         <p>${{subTotal}}</p>
-                        <p>{{$store.state.shipping === 0 ? 'free' : $store.state.shipping}}</p>
+                        <p>{{$store.state.shipping === 0 ? 'free' : `$${$store.state.shipping}.00`}}</p>
                         <p>${{estimatedTotal}}</p>
                     </div>
                 </div>
@@ -94,7 +94,9 @@ export default {
             return this.$store.getters.subTotal;
         },
         estimatedTotal() {
-            const total = this.$store.getters.subTotal + this.$store.state.shipping;
+            const subTotalParsed = parseFloat(this.$store.getters.subTotal);
+            const shipping = parseFloat(this.$store.state.shipping);
+            const total = subTotalParsed  + shipping;
             return parseFloat(total).toFixed(2);
         },
     },

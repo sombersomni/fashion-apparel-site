@@ -130,7 +130,7 @@ export default {
 
 /* animations */
 .side-open-enter-active, .side-open-leave-active {
-    transition: 1s;
+    transition: 0.5s;
 }
 .side-open-enter, .side-open-leave-to {
     width: 10px;

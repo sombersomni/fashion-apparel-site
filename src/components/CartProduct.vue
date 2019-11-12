@@ -33,7 +33,7 @@
         <div>
             <p>${{cartItem.price}}.00</p>
             <select
-                @change="changeQuantity()"
+                @change="changeQuantity($event, cartItem.id)"
                 ref="selectRefMobile"  
                 v-show="$store.state.mobile">
                 <option 
@@ -81,6 +81,14 @@ export default {
      mounted() {
         this.$refs.selectRef.value = this.cartItem.quantity;
         this.$refs.selectRefMobile.value = this.cartItem.quantity;
+    },
+    watch: {
+        $route(to, from) {
+            if (to.name === 'cart') {
+                this.$refs.selectRef.value = this.cartItem.quantity;
+                this.$refs.selectRefMobile.value = this.cartItem.quantity;
+            }
+        }
     },
     computed: {
         colorName() {

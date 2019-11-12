@@ -1,6 +1,7 @@
 <template>
     <div class="cart-buy-container">
-        <div class="cart-buy">
+        <div 
+            class="cart-buy">
             <div class="purchase-summary">
                 <h4>Order Summary</h4>
                 <div>
@@ -9,7 +10,7 @@
                 </div>
                 <div>
                     <p>Shipping</p>
-                    <p>{{$store.state.shipping === 0 ? 'free' : $store.state.shipping}}</p>
+                    <p>{{$store.state.shipping === 0 ? 'free' : `$${$store.state.shipping}.00`}}</p>
                 </div>
                 <div>
                     <p>Estimated Total</p>
@@ -63,8 +64,10 @@ export default {
         subTotal() {
             return this.$store.getters.subTotal;
         },
-        estimatedTotal() {
-            const total = this.$store.getters.subTotal + this.$store.state.shipping;
+          estimatedTotal() {
+            const subTotalParsed = parseFloat(this.$store.getters.subTotal);
+            const shipping = parseFloat(this.$store.state.shipping);
+            const total = subTotalParsed  + shipping;
             return parseFloat(total).toFixed(2);
         },
     },
@@ -73,8 +76,8 @@ export default {
 
 <style scoped>
 .cart-buy {
-    width: 60vw;
     padding: 25px;
+    width: 80vw;
     display: flex;
     flex-direction: column;
 }
@@ -84,12 +87,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 60px 0 0;
+    padding: 0;
 }
 .demo-desc {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 60vw;
     padding: 25px;
     background: #AAA;
     color: #333;
@@ -110,7 +114,6 @@ a:hover {
 
 .purchase-summary {
     background: #DDD;
-    width: 100%;
     padding: 25px;
     display: flex;
     flex-direction: column;
